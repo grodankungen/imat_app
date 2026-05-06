@@ -26,7 +26,7 @@ class CategorySidebar extends StatelessWidget {
               padding: EdgeInsets.only(bottom: AppTheme.paddingMedium),
               child: Text(
                 'Kategorier',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: AppTheme.fontSizeXl, fontWeight: FontWeight.w600),
               ),
             ),
             for (final group in categoryGroups)
@@ -79,7 +79,7 @@ class _CategoryButton extends StatelessWidget {
                 child: Text(
                   group.label,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: AppTheme.fontSizeLg,
                     fontWeight: FontWeight.w500,
                     color: fg,
                   ),

@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage>
         title: const Text(
           'Mitt konto',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: AppTheme.fontSize3xl,
             fontWeight: FontWeight.w700,
             color: AppTheme.gray900,
           ),
@@ -134,11 +134,11 @@ class _LoginPageState extends State<LoginPage>
                           labelColor: AppTheme.green700,
                           unselectedLabelColor: AppTheme.gray500,
                           labelStyle: const TextStyle(
-                            fontSize: 16,
+                            fontSize: AppTheme.fontSizeBase,
                             fontWeight: FontWeight.w600,
                           ),
                           unselectedLabelStyle: const TextStyle(
-                            fontSize: 16,
+                            fontSize: AppTheme.fontSizeBase,
                           ),
                           tabs: const [
                             Tab(text: 'Logga in'),
@@ -259,7 +259,7 @@ class _LoginForm extends StatelessWidget {
               ),
               child: const Text(
                 'Logga in',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: AppTheme.fontSizeBase, fontWeight: FontWeight.w600),
               ),
             ),
           ],
@@ -386,7 +386,7 @@ class _RegisterForm extends StatelessWidget {
               ),
               child: const Text(
                 'Skapa konto',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: AppTheme.fontSizeBase, fontWeight: FontWeight.w600),
               ),
             ),
           ],

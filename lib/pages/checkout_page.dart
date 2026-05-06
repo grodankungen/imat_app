@@ -249,14 +249,14 @@ class _CheckoutTopBar extends StatelessWidget {
               icon: const Icon(Icons.arrow_back, size: 18),
               label: const Text(
                 'Tillbaka',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: AppTheme.fontSizeBase),
               ),
             ),
           ),
           const Text(
             'iMat Kassa',
             style: TextStyle(
-              fontSize: 22,
+              fontSize: AppTheme.fontSize3xl,
               fontWeight: FontWeight.w600,
               color: AppTheme.green700,
             ),
@@ -323,7 +323,7 @@ class _StepperRow extends StatelessWidget {
                 Text(
                   labels[i],
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: AppTheme.fontSizeXs2,
                     fontWeight: FontWeight.w500,
                     color: (i == active && !completedAll) ||
                             (i < active || completedAll)
@@ -376,7 +376,7 @@ class _StepCircle extends StatelessWidget {
         style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w600,
-          fontSize: 16,
+          fontSize: AppTheme.fontSizeBase,
         ),
       );
     } else {
@@ -386,7 +386,7 @@ class _StepCircle extends StatelessWidget {
         style: const TextStyle(
           color: AppTheme.gray600,
           fontWeight: FontWeight.w600,
-          fontSize: 16,
+          fontSize: AppTheme.fontSizeBase,
         ),
       );
     }
@@ -423,7 +423,7 @@ class _OrderSummary extends StatelessWidget {
             padding: EdgeInsets.only(bottom: AppTheme.paddingMedium),
             child: Text(
               'Ordersammanställning',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: AppTheme.fontSizeXl, fontWeight: FontWeight.w600),
             ),
           ),
           for (final item in items)
@@ -452,14 +452,14 @@ class _OrderSummary extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 15,
+                            fontSize: AppTheme.fontSizeSm,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         Text(
                           '${item.amount.toStringAsFixed(0)} × ${item.product.price.toStringAsFixed(1)} kr',
                           style: const TextStyle(
-                            fontSize: 13,
+                            fontSize: AppTheme.fontSizeXs,
                             color: AppTheme.gray500,
                           ),
                         ),
@@ -469,7 +469,7 @@ class _OrderSummary extends StatelessWidget {
                   Text(
                     '${(item.product.price * item.amount).toStringAsFixed(2)} kr',
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: AppTheme.fontSizeSm,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -523,7 +523,7 @@ class _SummaryLine extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              fontSize: bold ? 17 : 15,
+              fontSize: bold ? AppTheme.fontSizeMd : AppTheme.fontSizeSm,
               fontWeight: bold ? FontWeight.w600 : FontWeight.w400,
               color: AppTheme.gray900,
             ),
@@ -531,7 +531,7 @@ class _SummaryLine extends StatelessWidget {
           Text(
             value,
             style: TextStyle(
-              fontSize: bold ? 18 : 15,
+              fontSize: bold ? AppTheme.fontSizeLg : AppTheme.fontSizeSm,
               fontWeight: bold ? FontWeight.w600 : FontWeight.w500,
               color: highlight ? AppTheme.green700 : AppTheme.gray900,
             ),
@@ -697,7 +697,7 @@ class _DeliveryStep extends StatelessWidget {
                   child: Text(
                     'Leveranssätt',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: AppTheme.fontSizeXl,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -725,7 +725,7 @@ class _DeliveryStep extends StatelessWidget {
                   child: Text(
                     'Leveransadress',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: AppTheme.fontSizeXl,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -766,7 +766,7 @@ class _DeliveryStep extends StatelessWidget {
                     child: const Text(
                       'Hantera adresser',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: AppTheme.fontSizeSm,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -805,7 +805,7 @@ class _DeliveryRow extends StatelessWidget {
               Text(
                 opt.title,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: AppTheme.fontSizeBase,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.gray900,
                 ),
@@ -814,7 +814,7 @@ class _DeliveryRow extends StatelessWidget {
               Text(
                 opt.subtitle,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: AppTheme.fontSizeXs2,
                   color: AppTheme.gray500,
                 ),
               ),
@@ -824,7 +824,7 @@ class _DeliveryRow extends StatelessWidget {
         Text(
           priceText,
           style: const TextStyle(
-            fontSize: 15,
+            fontSize: AppTheme.fontSizeSm,
             fontWeight: FontWeight.w600,
             color: AppTheme.green700,
           ),
@@ -851,7 +851,7 @@ class _AddressRow extends StatelessWidget {
               Text(
                 address.label,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: AppTheme.fontSizeBase,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -864,11 +864,11 @@ class _AddressRow extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             address.street,
-            style: const TextStyle(fontSize: 14, color: AppTheme.gray700),
+            style: const TextStyle(fontSize: AppTheme.fontSizeXs2, color: AppTheme.gray700),
           ),
           Text(
             '${address.postCode} ${address.city}'.trim(),
-            style: const TextStyle(fontSize: 14, color: AppTheme.gray700),
+            style: const TextStyle(fontSize: AppTheme.fontSizeXs2, color: AppTheme.gray700),
           ),
         ],
       ),
@@ -888,7 +888,7 @@ class _StdBadge extends StatelessWidget {
       child: const Text(
         'Standard',
         style: TextStyle(
-          fontSize: 12,
+          fontSize: AppTheme.fontSizeXxs,
           fontWeight: FontWeight.w500,
           color: AppTheme.green700,
         ),
@@ -922,7 +922,7 @@ class _EmptyAccountHint extends StatelessWidget {
           Text(
             text,
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: AppTheme.fontSizeXs2,
               color: AppTheme.gray600,
             ),
           ),
@@ -946,7 +946,7 @@ class _EmptyAccountHint extends StatelessWidget {
             label: Text(
               actionLabel,
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: AppTheme.fontSizeXs2,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -997,7 +997,7 @@ class _PaymentStep extends StatelessWidget {
                   child: Text(
                     'Betalmetod',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: AppTheme.fontSizeXl,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -1020,7 +1020,7 @@ class _PaymentStep extends StatelessWidget {
                     child: Text(
                       'Sparade kort',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: AppTheme.fontSizeBase,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -1061,7 +1061,7 @@ class _PaymentStep extends StatelessWidget {
                       child: const Text(
                         'Hantera kort',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: AppTheme.fontSizeSm,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1099,7 +1099,7 @@ class _PaymentRow extends StatelessWidget {
               Text(
                 opt.title,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: AppTheme.fontSizeBase,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -1107,7 +1107,7 @@ class _PaymentRow extends StatelessWidget {
               Text(
                 opt.subtitle,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: AppTheme.fontSizeXs2,
                   color: AppTheme.gray500,
                 ),
               ),
@@ -1139,7 +1139,7 @@ class _CardRow extends StatelessWidget {
                   Text(
                     '•••• ${card.last4}',
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: AppTheme.fontSizeBase,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 1.5,
                     ),
@@ -1154,7 +1154,7 @@ class _CardRow extends StatelessWidget {
               Text(
                 '${card.holder.toUpperCase()}  •  ${card.expiry}',
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: AppTheme.fontSizeXs,
                   color: AppTheme.gray600,
                   letterSpacing: 0.5,
                 ),
@@ -1245,7 +1245,7 @@ class _ReviewStep extends StatelessWidget {
                       child: Text(
                         'Granska din beställning',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: AppTheme.fontSize4xl,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -1259,7 +1259,7 @@ class _ReviewStep extends StatelessWidget {
                     Text(
                       deliveryTitle,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: AppTheme.fontSizeBase,
                         color: AppTheme.gray900,
                       ),
                     ),
@@ -1268,7 +1268,7 @@ class _ReviewStep extends StatelessWidget {
                       Text(
                         l,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: AppTheme.fontSizeBase,
                           color: AppTheme.gray900,
                         ),
                       ),
@@ -1281,7 +1281,7 @@ class _ReviewStep extends StatelessWidget {
                     Text(
                       paymentLabel,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: AppTheme.fontSizeBase,
                         color: AppTheme.gray900,
                       ),
                     ),
@@ -1290,7 +1290,7 @@ class _ReviewStep extends StatelessWidget {
                       Text(
                         '•••• ${card.last4}',
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: AppTheme.fontSizeBase,
                           color: AppTheme.gray900,
                           letterSpacing: 1.5,
                         ),
@@ -1310,12 +1310,12 @@ class _ReviewStep extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 '${item.amount.toStringAsFixed(0)}x ${item.product.name}',
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: AppTheme.fontSizeBase),
                               ),
                             ),
                             Text(
                               '${(item.product.price * item.amount).toStringAsFixed(2)} kr',
-                              style: const TextStyle(fontSize: 16),
+                              style: const TextStyle(fontSize: AppTheme.fontSizeBase),
                             ),
                           ],
                         ),
@@ -1331,14 +1331,14 @@ class _ReviewStep extends StatelessWidget {
                     const Text(
                       'Totalt att betala:',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: AppTheme.fontSizeXl,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
                       '${total.toStringAsFixed(2)} kr',
                       style: const TextStyle(
-                        fontSize: 22,
+                        fontSize: AppTheme.fontSize3xl,
                         fontWeight: FontWeight.w700,
                         color: AppTheme.green700,
                       ),
@@ -1375,7 +1375,7 @@ class _ReviewSection extends StatelessWidget {
           child: Text(
             title,
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: AppTheme.fontSizeXs2,
               fontWeight: FontWeight.w500,
               color: AppTheme.gray500,
             ),
@@ -1432,7 +1432,7 @@ class _DoneStep extends StatelessWidget {
                 const Text(
                   'Beställning lagd!',
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: AppTheme.fontSize5xl,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -1441,7 +1441,7 @@ class _DoneStep extends StatelessWidget {
                   'Tack för din beställning. Du får en bekräftelse på\n$email',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: AppTheme.fontSizeBase,
                     color: AppTheme.gray600,
                   ),
                 ),
@@ -1460,12 +1460,12 @@ class _DoneStep extends StatelessWidget {
                         children: [
                           const Text(
                             'Ordernummer:',
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: AppTheme.fontSizeBase),
                           ),
                           Text(
                             '#$orderNumber',
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: AppTheme.fontSizeBase,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -1478,7 +1478,7 @@ class _DoneStep extends StatelessWidget {
                           const Text(
                             'Totalt:',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: AppTheme.fontSizeLg,
                               fontWeight: FontWeight.w700,
                               color: AppTheme.green700,
                             ),
@@ -1486,7 +1486,7 @@ class _DoneStep extends StatelessWidget {
                           Text(
                             '${total.toStringAsFixed(2)} kr',
                             style: const TextStyle(
-                              fontSize: 20,
+                              fontSize: AppTheme.fontSizeXl,
                               fontWeight: FontWeight.w700,
                               color: AppTheme.green700,
                             ),
@@ -1554,7 +1554,7 @@ class _PrimaryButton extends StatelessWidget {
           Text(
             label,
             style: const TextStyle(
-              fontSize: 17,
+              fontSize: AppTheme.fontSizeMd,
               fontWeight: FontWeight.w600,
             ),
           ),

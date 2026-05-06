@@ -41,6 +41,22 @@ class AppTheme {
   static const double headerHeight = 73.0;
   static const double productImageHeight = 130.0;
 
+  // Font sizes
+  static const double fontSizeXxs  = 12.0; // tiny labels
+  static const double fontSizeXs   = 13.0; // small secondary text
+  static const double fontSizeXs2  = 14.0; // slightly larger secondary
+  static const double fontSizeSm   = 15.0; // category label on card, button text
+  static const double fontSizeBase = 16.0; // body / list items
+  static const double fontSizeMd   = 17.0; // product name on card
+  static const double fontSizeLg   = 18.0; // nav buttons, cart items, search
+  static const double fontSizeXl   = 20.0; // prices, sidebar section headers
+  static const double fontSize2xl  = 21.0; // quantity button glyphs
+  static const double fontSize3xl  = 22.0; // order item totals
+  static const double fontSize4xl  = 24.0; // panel / sidebar headers
+  static const double fontSize5xl  = 28.0; // modal titles
+  static const double fontSize6xl  = 30.0; // product detail name
+  static const double fontSize7xl  = 36.0; // product detail price
+
   // Radii
   static const double radiusSm = 4.0;
   static const double radiusLg = 8.0;

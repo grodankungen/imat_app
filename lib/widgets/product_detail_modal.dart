@@ -62,8 +62,8 @@ class _ProductDetail extends StatelessWidget {
                     child: Text(
                       product.name,
                       style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
+                        fontSize: AppTheme.fontSize6xl,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
@@ -96,7 +96,7 @@ class _ProductDetail extends StatelessWidget {
                         Text(
                           _categoryLabel(product),
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: AppTheme.fontSizeXl,
                             color: AppTheme.gray600,
                           ),
                         ),
@@ -104,7 +104,8 @@ class _ProductDetail extends StatelessWidget {
                         Text(
                           '${product.price.toStringAsFixed(2)} ${product.unit}',
                           style: const TextStyle(
-                            fontSize: 36,
+                            fontSize: AppTheme.fontSize7xl,
+                            fontWeight: FontWeight.w700,
                             color: AppTheme.green700,
                           ),
                         ),
@@ -114,7 +115,7 @@ class _ProductDetail extends StatelessWidget {
                               ? detail!.description
                               : 'Ingen beskrivning tillgänglig.',
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: AppTheme.fontSizeLg,
                             height: 1.625,
                           ),
                         ),
@@ -123,7 +124,7 @@ class _ProductDetail extends StatelessWidget {
                           Text(
                             'Ursprung: ${detail.origin}',
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: AppTheme.fontSizeBase,
                               color: AppTheme.gray600,
                             ),
                           ),
@@ -211,7 +212,7 @@ class _DetailFavButton extends StatelessWidget {
                 Text(
                   isFavorite ? 'I favoriter' : 'Lägg till favoriter',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: AppTheme.fontSizeXl,
                     fontWeight: FontWeight.w500,
                     color: color,
                   ),
@@ -258,7 +259,7 @@ class _DetailAddCartButton extends StatelessWidget {
                     Text(
                       'Lägg till i kundvagn',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: AppTheme.fontSizeXl,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),

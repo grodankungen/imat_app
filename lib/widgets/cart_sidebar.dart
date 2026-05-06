@@ -37,7 +37,7 @@ class CartSidebar extends StatelessWidget {
                   const Text(
                     'Kundvagn',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: AppTheme.fontSize4xl,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -58,7 +58,7 @@ class CartSidebar extends StatelessWidget {
                           'Din kundvagn är tom',
                           style: TextStyle(
                             color: AppTheme.gray500,
-                            fontSize: 18,
+                            fontSize: AppTheme.fontSizeLg,
                           ),
                         ),
                       ),
@@ -92,12 +92,12 @@ class CartSidebar extends StatelessWidget {
                         children: [
                           const Text(
                             'Totalt:',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: AppTheme.fontSizeXl),
                           ),
                           Text(
                             '${total.toStringAsFixed(2)} kr',
                             style: const TextStyle(
-                              fontSize: 20,
+                              fontSize: AppTheme.fontSizeXl,
                               color: AppTheme.green700,
                             ),
                           ),
@@ -136,7 +136,7 @@ class CartSidebar extends StatelessWidget {
                               child: Text(
                                 'Gå till kassan',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: AppTheme.fontSizeLg,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
                                 ),
@@ -171,7 +171,7 @@ class CartSidebar extends StatelessWidget {
                                 Text(
                                   'Töm kundvagn',
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: AppTheme.fontSizeLg,
                                     color: AppTheme.red600,
                                   ),
                                 ),
@@ -226,13 +226,13 @@ class _CartItemTile extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
+                    fontSize: AppTheme.fontSizeLg,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 Text(
                   '${item.product.price.toStringAsFixed(2)} ${item.product.unit}',
-                  style: const TextStyle(color: AppTheme.green700),
+                  style: const TextStyle(color: AppTheme.green700, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: AppTheme.paddingSmall),
                 Row(
@@ -269,7 +269,7 @@ class _CartItemTile extends StatelessWidget {
                   Text(
                     'Ta bort',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: AppTheme.fontSizeXs,
                       color: AppTheme.red500,
                       fontWeight: FontWeight.w500,
                     ),
@@ -301,7 +301,7 @@ class _SmallQtyBtn extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           child: Text(
             icon,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: AppTheme.fontSizeBase, fontWeight: FontWeight.w600),
           ),
         ),
       ),

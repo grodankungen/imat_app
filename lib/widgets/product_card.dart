@@ -90,12 +90,11 @@ class _ProductCardState extends State<ProductCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(
-                      height: AppTheme.productImageHeight,
+                    Expanded(
                       child: iMat.getImage(p),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(AppTheme.paddingMediumSmall),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -104,15 +103,15 @@ class _ProductCardState extends State<ProductCard> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
+                              fontSize: AppTheme.fontSizeMd,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             _categoryLabel(p),
                             style: const TextStyle(
-                              fontSize: 13,
+                              fontSize: AppTheme.fontSizeSm,
                               color: AppTheme.gray600,
                             ),
                           ),
@@ -120,7 +119,8 @@ class _ProductCardState extends State<ProductCard> {
                           Text(
                             '${p.price.toStringAsFixed(2)} ${p.unit}',
                             style: const TextStyle(
-                              fontSize: 20,
+                              fontSize: AppTheme.fontSizeXl,
+                              fontWeight: FontWeight.w700,
                               color: AppTheme.green700,
                             ),
                           ),
@@ -229,7 +229,7 @@ class _AddToCartButton extends StatelessWidget {
                 Text(
                   'Lägg till',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: AppTheme.fontSizeSm,
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                   ),
@@ -267,7 +267,7 @@ class _QuantityControl extends StatelessWidget {
           Text(
             item.amount.toStringAsFixed(0),
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: AppTheme.fontSizeSm,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -299,7 +299,7 @@ class _QtyBtn extends StatelessWidget {
           child: Text(
             icon,
             style: const TextStyle(
-              fontSize: 21,
+              fontSize: AppTheme.fontSize2xl,
               fontWeight: FontWeight.w600,
               color: Colors.white,
             ),

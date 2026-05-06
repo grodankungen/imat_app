@@ -125,6 +125,7 @@ class _MainViewState extends State<MainView>
               ),
               Expanded(
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const CategorySidebar(),
                     Expanded(
@@ -215,7 +216,7 @@ class _ProductsArea extends StatelessWidget {
             child: Text(
               heading,
               style: const TextStyle(
-                fontSize: 30,
+                fontSize: AppTheme.fontSize6xl,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -226,15 +227,17 @@ class _ProductsArea extends StatelessWidget {
                     child: Text(
                       'Inga produkter hittades',
                       style:
-                          TextStyle(fontSize: 18, color: AppTheme.gray500),
+                          TextStyle(fontSize: AppTheme.fontSizeLg, color: AppTheme.gray500),
                     ),
                   )
                 : LayoutBuilder(
                     builder: (ctx, c) {
                       int columns;
-                      if (c.maxWidth >= 640) {
+                      if (c.maxWidth >= 950) {
+                        columns = 4;
+                      } else if (c.maxWidth >= 620) {
                         columns = 3;
-                      } else if (c.maxWidth >= 420) {
+                      } else if (c.maxWidth >= 400) {
                         columns = 2;
                       } else {
                         columns = 1;
@@ -243,9 +246,9 @@ class _ProductsArea extends StatelessWidget {
                         gridDelegate:
                             SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: columns,
-                          crossAxisSpacing: AppTheme.paddingMediumLarge,
-                          mainAxisSpacing: AppTheme.paddingMediumLarge,
-                          mainAxisExtent: 305,
+                          crossAxisSpacing: AppTheme.paddingMedium,
+                          mainAxisSpacing: AppTheme.paddingMedium,
+                          mainAxisExtent: 290,
                         ),
                         itemCount: products.length,
                         itemBuilder: (_, i) => ProductCard(

@@ -22,12 +22,12 @@ Future<void> showClearCartModal(BuildContext context) {
             children: [
               const Text(
                 'Töm kundvagn?',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: AppTheme.fontSize4xl, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: AppTheme.paddingMedium),
               const Text(
                 'Är du säker på att du vill ta bort alla produkter från kundvagnen?',
-                style: TextStyle(fontSize: 18, color: AppTheme.gray600),
+                style: TextStyle(fontSize: AppTheme.fontSizeLg, color: AppTheme.gray600),
               ),
               const SizedBox(height: AppTheme.paddingLarge),
               Row(
@@ -49,7 +49,7 @@ Future<void> showClearCartModal(BuildContext context) {
                       child: const Text(
                         'Avbryt',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: AppTheme.fontSizeLg,
                           color: AppTheme.gray900,
                         ),
                       ),
@@ -73,7 +73,7 @@ Future<void> showClearCartModal(BuildContext context) {
                       child: const Text(
                         'Töm vagn',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: AppTheme.fontSizeLg,
                           color: Colors.white,
                         ),
                       ),
