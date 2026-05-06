@@ -53,7 +53,7 @@ class HeaderBar extends StatelessWidget {
                 child: Text(
                   'iMat',
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: AppTheme.fontSize5xl,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.green700,
                   ),
@@ -110,10 +110,10 @@ class _SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: onChanged,
-      style: const TextStyle(fontSize: 18),
+      style: const TextStyle(fontSize: AppTheme.fontSizeLg),
       decoration: InputDecoration(
         hintText: 'Sök varor...',
-        hintStyle: const TextStyle(color: AppTheme.gray400, fontSize: 18),
+        hintStyle: const TextStyle(color: AppTheme.gray400, fontSize: AppTheme.fontSizeLg),
         prefixIcon: const Icon(Icons.search, color: AppTheme.gray400, size: 20),
         prefixIconConstraints: const BoxConstraints(
           minWidth: 48,
@@ -164,7 +164,7 @@ class _LoginButton extends StatelessWidget {
               Text(
                 'Logga in',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: AppTheme.fontSizeLg,
                   fontWeight: FontWeight.w700,
                   color: AppTheme.gray900,
                 ),
@@ -217,7 +217,7 @@ class _FavoritesButton extends StatelessWidget {
               Text(
                 'Favoriter ($count)',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: AppTheme.fontSizeLg,
                   fontWeight: FontWeight.w500,
                   color: active ? Colors.white : AppTheme.gray700,
                 ),
@@ -349,7 +349,7 @@ class _AccountMenuState extends State<_AccountMenu> {
                 const Text(
                   'Konto',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: AppTheme.fontSizeLg,
                     fontWeight: FontWeight.w700,
                     color: AppTheme.gray900,
                   ),
@@ -401,7 +401,7 @@ class _AccountMenuPopup extends StatelessWidget {
                   const Text(
                     'Inloggad som',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: AppTheme.fontSizeXs,
                       color: AppTheme.gray500,
                     ),
                   ),
@@ -409,7 +409,7 @@ class _AccountMenuPopup extends StatelessWidget {
                   Text(
                     email,
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: AppTheme.fontSizeSm,
                       fontWeight: FontWeight.w700,
                       color: AppTheme.gray900,
                     ),
@@ -472,7 +472,7 @@ class _MenuItem extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: AppTheme.fontSizeBase,
                 fontWeight: FontWeight.w600,
                 color: color,
               ),
@@ -512,7 +512,7 @@ class _CartButton extends StatelessWidget {
               Text(
                 'Kundvagn ($count)',
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: AppTheme.fontSizeLg,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
                 ),

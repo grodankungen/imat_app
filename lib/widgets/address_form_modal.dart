@@ -87,7 +87,7 @@ class _AddressFormState extends State<_AddressForm> {
                       child: Text(
                         isNew ? 'Ny adress' : 'Redigera adress',
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: AppTheme.fontSize3xl,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -148,7 +148,7 @@ class _AddressFormState extends State<_AddressForm> {
                     child: Text(
                       isNew ? 'Lägg till' : 'Spara',
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: AppTheme.fontSizeBase,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

@@ -87,7 +87,7 @@ class _CardFormState extends State<_CardForm> {
                       child: Text(
                         isNew ? 'Nytt kort' : 'Redigera kort',
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: AppTheme.fontSize3xl,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -198,7 +198,7 @@ class _CardFormState extends State<_CardForm> {
                     child: Text(
                       isNew ? 'Lägg till' : 'Spara',
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: AppTheme.fontSizeBase,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

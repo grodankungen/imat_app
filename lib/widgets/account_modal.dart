@@ -61,7 +61,7 @@ class _AccountModal extends StatelessWidget {
                         const Text(
                           'Kontouppgifter',
                           style: TextStyle(
-                            fontSize: 28,
+                            fontSize: AppTheme.fontSize5xl,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -69,7 +69,7 @@ class _AccountModal extends StatelessWidget {
                         Text(
                           email,
                           style: const TextStyle(
-                            fontSize: 15,
+                            fontSize: AppTheme.fontSizeSm,
                             color: AppTheme.gray500,
                           ),
                         ),
@@ -233,7 +233,7 @@ class _SectionHeader extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            fontSize: 22,
+            fontSize: AppTheme.fontSize3xl,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -252,7 +252,7 @@ class _EmptyHint extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingSmall),
       child: Text(
         text,
-        style: const TextStyle(color: AppTheme.gray500, fontSize: 14),
+        style: const TextStyle(color: AppTheme.gray500, fontSize: AppTheme.fontSizeXs2),
       ),
     );
   }
@@ -277,7 +277,7 @@ class _StandardBadge extends StatelessWidget {
           Text(
             'Standard',
             style: TextStyle(
-              fontSize: 12,
+              fontSize: AppTheme.fontSizeXxs,
               fontWeight: FontWeight.w600,
               color: AppTheme.green700,
             ),
@@ -333,7 +333,7 @@ class _AddressTile extends StatelessWidget {
                         Text(
                           address.label,
                           style: const TextStyle(
-                            fontSize: 17,
+                            fontSize: AppTheme.fontSizeMd,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -349,14 +349,14 @@ class _AddressTile extends StatelessWidget {
                     Text(
                       address.street,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: AppTheme.fontSizeSm,
                         color: AppTheme.gray700,
                       ),
                     ),
                     Text(
                       '${address.postCode} ${address.city}'.trim(),
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: AppTheme.fontSizeSm,
                         color: AppTheme.gray700,
                       ),
                     ),
@@ -366,7 +366,7 @@ class _AddressTile extends StatelessWidget {
                         child: Text(
                           address.phone,
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: AppTheme.fontSizeXs2,
                             color: AppTheme.gray500,
                           ),
                         ),
@@ -439,7 +439,7 @@ class _CardTile extends StatelessWidget {
                         Text(
                           '•••• ${card.last4}',
                           style: const TextStyle(
-                            fontSize: 17,
+                            fontSize: AppTheme.fontSizeMd,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 1.5,
                           ),
@@ -456,7 +456,7 @@ class _CardTile extends StatelessWidget {
                     Text(
                       '${card.holder.toUpperCase()}  •  ${card.expiry}',
                       style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: AppTheme.fontSizeXs,
                         color: AppTheme.gray600,
                         letterSpacing: 0.4,
                       ),
@@ -510,7 +510,7 @@ class _AddDashedButton extends StatelessWidget {
                 Text(
                   label,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: AppTheme.fontSizeBase,
                     fontWeight: FontWeight.w500,
                     color: AppTheme.gray700,
                   ),

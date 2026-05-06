@@ -46,7 +46,7 @@ class _OrderHistoryModal extends StatelessWidget {
                     child: Text(
                       'Orderhistorik',
                       style: TextStyle(
-                        fontSize: 28,
+                        fontSize: AppTheme.fontSize5xl,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -67,7 +67,7 @@ class _OrderHistoryModal extends StatelessWidget {
                       child: Text(
                         'Du har inga tidigare beställningar.',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: AppTheme.fontSizeBase,
                           color: AppTheme.gray500,
                         ),
                       ),
@@ -151,7 +151,7 @@ class _OrderCard extends StatelessWidget {
                       Text(
                         'Order #${order.orderNumber}',
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: AppTheme.fontSizeXl,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -159,14 +159,14 @@ class _OrderCard extends StatelessWidget {
                       Text(
                         _fmt(order.date),
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: AppTheme.fontSizeXs2,
                           color: AppTheme.gray600,
                         ),
                       ),
                       Text(
                         '$deliveryLabel  •  $paymentLabel',
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: AppTheme.fontSizeXs2,
                           color: AppTheme.gray500,
                         ),
                       ),
@@ -179,7 +179,7 @@ class _OrderCard extends StatelessWidget {
                     Text(
                       '${order.getTotal().toStringAsFixed(2)} kr',
                       style: const TextStyle(
-                        fontSize: 22,
+                        fontSize: AppTheme.fontSize3xl,
                         fontWeight: FontWeight.w700,
                         color: AppTheme.green700,
                       ),
@@ -206,7 +206,7 @@ class _OrderCard extends StatelessWidget {
                       label: const Text(
                         'Beställ igen',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: AppTheme.fontSizeXs2,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -279,15 +279,15 @@ class _OrderItemRow extends StatelessWidget {
                 Text(
                   item.product.name,
                   style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                    fontSize: AppTheme.fontSizeBase,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   '${item.amount.toStringAsFixed(0)} × ${item.product.price.toStringAsFixed(2)} kr',
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: AppTheme.fontSizeXs,
                     color: AppTheme.gray500,
                   ),
                 ),
@@ -297,7 +297,7 @@ class _OrderItemRow extends StatelessWidget {
           Text(
             '${(item.product.price * item.amount).toStringAsFixed(2)} kr',
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: AppTheme.fontSizeBase,
               fontWeight: FontWeight.w500,
             ),
           ),
