@@ -156,7 +156,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.gray50,
+      backgroundColor: AppTheme.surface,
       body: SafeArea(
         child: Column(
           children: [
@@ -165,7 +165,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               _CheckoutStepper(activeStep: _step)
             else
               _CheckoutStepperDone(),
-            const Divider(height: 1, color: AppTheme.gray200),
+            const Divider(height: 1, color: AppTheme.border),
             Expanded(child: _buildBody()),
           ],
         ),
@@ -240,7 +240,7 @@ class _CheckoutTopBar extends StatelessWidget {
             child: TextButton.icon(
               onPressed: onBack,
               style: TextButton.styleFrom(
-                foregroundColor: AppTheme.gray700,
+                foregroundColor: AppTheme.textPrimary,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
                   vertical: 8,
@@ -258,7 +258,7 @@ class _CheckoutTopBar extends StatelessWidget {
             style: TextStyle(
               fontSize: AppTheme.fontSize3xl,
               fontWeight: FontWeight.w600,
-              color: AppTheme.green700,
+              color: AppTheme.primary,
             ),
           ),
         ],
@@ -327,8 +327,8 @@ class _StepperRow extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     color: (i == active && !completedAll) ||
                             (i < active || completedAll)
-                        ? AppTheme.gray900
-                        : AppTheme.gray400,
+                        ? AppTheme.black
+                        : AppTheme.hint,
                   ),
                 ),
               ],
@@ -341,8 +341,8 @@ class _StepperRow extends StatelessWidget {
                 child: Container(
                   height: 2,
                   color: (i < active || completedAll)
-                      ? AppTheme.green600
-                      : AppTheme.gray200,
+                      ? AppTheme.primary
+                      : AppTheme.border,
                 ),
               ),
             ),
@@ -367,10 +367,10 @@ class _StepCircle extends StatelessWidget {
     Color bg;
     Widget child;
     if (isCompleted) {
-      bg = AppTheme.green600;
+      bg = AppTheme.primary;
       child = const Icon(Icons.check, color: Colors.white, size: 18);
     } else if (isActive) {
-      bg = AppTheme.green600;
+      bg = AppTheme.primary;
       child = Text(
         '${index + 1}',
         style: const TextStyle(
@@ -380,11 +380,11 @@ class _StepCircle extends StatelessWidget {
         ),
       );
     } else {
-      bg = AppTheme.gray300;
+      bg = AppTheme.border;
       child = Text(
         '${index + 1}',
         style: const TextStyle(
-          color: AppTheme.gray600,
+          color: AppTheme.textSecondary,
           fontWeight: FontWeight.w600,
           fontSize: AppTheme.fontSizeBase,
         ),
@@ -460,7 +460,7 @@ class _OrderSummary extends StatelessWidget {
                           '${item.amount.toStringAsFixed(0)} × ${item.product.price.toStringAsFixed(1)} kr',
                           style: const TextStyle(
                             fontSize: AppTheme.fontSizeXs,
-                            color: AppTheme.gray500,
+                            color: AppTheme.textSecondary,
                           ),
                         ),
                       ],
@@ -478,7 +478,7 @@ class _OrderSummary extends StatelessWidget {
             ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: AppTheme.paddingSmall),
-            child: Divider(color: AppTheme.gray200, height: 1),
+            child: Divider(color: AppTheme.border, height: 1),
           ),
           _SummaryLine(
             label: 'Delsumma:',
@@ -525,7 +525,7 @@ class _SummaryLine extends StatelessWidget {
             style: TextStyle(
               fontSize: bold ? AppTheme.fontSizeMd : AppTheme.fontSizeSm,
               fontWeight: bold ? FontWeight.w600 : FontWeight.w400,
-              color: AppTheme.gray900,
+              color: AppTheme.black,
             ),
           ),
           Text(
@@ -533,7 +533,7 @@ class _SummaryLine extends StatelessWidget {
             style: TextStyle(
               fontSize: bold ? AppTheme.fontSizeLg : AppTheme.fontSizeSm,
               fontWeight: bold ? FontWeight.w600 : FontWeight.w500,
-              color: highlight ? AppTheme.green700 : AppTheme.gray900,
+              color: highlight ? AppTheme.primary : AppTheme.black,
             ),
           ),
         ],
@@ -585,7 +585,7 @@ class _OptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? AppTheme.green50 : Colors.white,
+      color: selected ? AppTheme.primarySurface : Colors.white,
       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
@@ -597,7 +597,7 @@ class _OptionTile extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             border: Border.all(
-              color: selected ? AppTheme.green600 : AppTheme.gray200,
+              color: selected ? AppTheme.primary : AppTheme.border,
               width: selected ? 2 : 1,
             ),
             borderRadius: BorderRadius.circular(AppTheme.radiusLg),
@@ -757,7 +757,7 @@ class _DeliveryStep extends StatelessWidget {
                   child: TextButton(
                     onPressed: () => showAccountModal(context),
                     style: TextButton.styleFrom(
-                      foregroundColor: AppTheme.green700,
+                      foregroundColor: AppTheme.primary,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 4,
                         vertical: 4,
@@ -796,7 +796,7 @@ class _DeliveryRow extends StatelessWidget {
         opt.price == 0 ? 'Gratis' : '${opt.price.toStringAsFixed(0)} kr';
     return Row(
       children: [
-        Icon(opt.icon, size: 22, color: AppTheme.gray700),
+        Icon(opt.icon, size: 22, color: AppTheme.textPrimary),
         const SizedBox(width: AppTheme.paddingMedium),
         Expanded(
           child: Column(
@@ -807,7 +807,7 @@ class _DeliveryRow extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: AppTheme.fontSizeBase,
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.gray900,
+                  color: AppTheme.black,
                 ),
               ),
               const SizedBox(height: 2),
@@ -815,7 +815,7 @@ class _DeliveryRow extends StatelessWidget {
                 opt.subtitle,
                 style: const TextStyle(
                   fontSize: AppTheme.fontSizeXs2,
-                  color: AppTheme.gray500,
+                  color: AppTheme.textSecondary,
                 ),
               ),
             ],
@@ -826,7 +826,7 @@ class _DeliveryRow extends StatelessWidget {
           style: const TextStyle(
             fontSize: AppTheme.fontSizeSm,
             fontWeight: FontWeight.w600,
-            color: AppTheme.green700,
+            color: AppTheme.primary,
           ),
         ),
       ],
@@ -864,11 +864,11 @@ class _AddressRow extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             address.street,
-            style: const TextStyle(fontSize: AppTheme.fontSizeXs2, color: AppTheme.gray700),
+            style: const TextStyle(fontSize: AppTheme.fontSizeXs2, color: AppTheme.textPrimary),
           ),
           Text(
             '${address.postCode} ${address.city}'.trim(),
-            style: const TextStyle(fontSize: AppTheme.fontSizeXs2, color: AppTheme.gray700),
+            style: const TextStyle(fontSize: AppTheme.fontSizeXs2, color: AppTheme.textPrimary),
           ),
         ],
       ),
@@ -882,7 +882,7 @@ class _StdBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: AppTheme.green50,
+        color: AppTheme.primarySurface,
         borderRadius: BorderRadius.circular(AppTheme.radiusSm),
       ),
       child: const Text(
@@ -890,7 +890,7 @@ class _StdBadge extends StatelessWidget {
         style: TextStyle(
           fontSize: AppTheme.fontSizeXxs,
           fontWeight: FontWeight.w500,
-          color: AppTheme.green700,
+          color: AppTheme.primary,
         ),
       ),
     );
@@ -912,9 +912,9 @@ class _EmptyAccountHint extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppTheme.paddingMedium),
       decoration: BoxDecoration(
-        color: AppTheme.gray50,
+        color: AppTheme.surface,
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        border: Border.all(color: AppTheme.gray200),
+        border: Border.all(color: AppTheme.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -923,14 +923,14 @@ class _EmptyAccountHint extends StatelessWidget {
             text,
             style: const TextStyle(
               fontSize: AppTheme.fontSizeXs2,
-              color: AppTheme.gray600,
+              color: AppTheme.textSecondary,
             ),
           ),
           const SizedBox(height: AppTheme.paddingSmall),
           ElevatedButton.icon(
             onPressed: onAction,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.green600,
+              backgroundColor: AppTheme.primary,
               foregroundColor: Colors.white,
               elevation: 0,
               padding: const EdgeInsets.symmetric(
@@ -1052,7 +1052,7 @@ class _PaymentStep extends StatelessWidget {
                     child: TextButton(
                       onPressed: () => showAccountModal(context),
                       style: TextButton.styleFrom(
-                        foregroundColor: AppTheme.green700,
+                        foregroundColor: AppTheme.primary,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 4,
                           vertical: 4,
@@ -1090,7 +1090,7 @@ class _PaymentRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(opt.icon, size: 22, color: AppTheme.gray700),
+        Icon(opt.icon, size: 22, color: AppTheme.textPrimary),
         const SizedBox(width: AppTheme.paddingMedium),
         Expanded(
           child: Column(
@@ -1108,7 +1108,7 @@ class _PaymentRow extends StatelessWidget {
                 opt.subtitle,
                 style: const TextStyle(
                   fontSize: AppTheme.fontSizeXs2,
-                  color: AppTheme.gray500,
+                  color: AppTheme.textSecondary,
                 ),
               ),
             ],
@@ -1128,7 +1128,7 @@ class _CardRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.credit_card, size: 20, color: AppTheme.gray700),
+        const Icon(Icons.credit_card, size: 20, color: AppTheme.textPrimary),
         const SizedBox(width: AppTheme.paddingMediumSmall),
         Expanded(
           child: Column(
@@ -1155,7 +1155,7 @@ class _CardRow extends StatelessWidget {
                 '${card.holder.toUpperCase()}  •  ${card.expiry}',
                 style: const TextStyle(
                   fontSize: AppTheme.fontSizeXs,
-                  color: AppTheme.gray600,
+                  color: AppTheme.textSecondary,
                   letterSpacing: 0.5,
                 ),
               ),
@@ -1230,13 +1230,13 @@ class _ReviewStep extends StatelessWidget {
                       width: 56,
                       height: 56,
                       decoration: const BoxDecoration(
-                        color: AppTheme.green50,
+                        color: AppTheme.primarySurface,
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
                       child: const Icon(
                         Icons.shopping_cart_outlined,
-                        color: AppTheme.green700,
+                        color: AppTheme.primary,
                         size: 28,
                       ),
                     ),
@@ -1260,7 +1260,7 @@ class _ReviewStep extends StatelessWidget {
                       deliveryTitle,
                       style: const TextStyle(
                         fontSize: AppTheme.fontSizeBase,
-                        color: AppTheme.gray900,
+                        color: AppTheme.black,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -1269,7 +1269,7 @@ class _ReviewStep extends StatelessWidget {
                         l,
                         style: const TextStyle(
                           fontSize: AppTheme.fontSizeBase,
-                          color: AppTheme.gray900,
+                          color: AppTheme.black,
                         ),
                       ),
                   ],
@@ -1282,7 +1282,7 @@ class _ReviewStep extends StatelessWidget {
                       paymentLabel,
                       style: const TextStyle(
                         fontSize: AppTheme.fontSizeBase,
-                        color: AppTheme.gray900,
+                        color: AppTheme.black,
                       ),
                     ),
                     if (paymentId == 'card' && card != null) ...[
@@ -1291,7 +1291,7 @@ class _ReviewStep extends StatelessWidget {
                         '•••• ${card.last4}',
                         style: const TextStyle(
                           fontSize: AppTheme.fontSizeBase,
-                          color: AppTheme.gray900,
+                          color: AppTheme.black,
                           letterSpacing: 1.5,
                         ),
                       ),
@@ -1323,7 +1323,7 @@ class _ReviewStep extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: AppTheme.paddingMedium),
-                const Divider(color: AppTheme.gray200, height: 1),
+                const Divider(color: AppTheme.border, height: 1),
                 const SizedBox(height: AppTheme.paddingMedium),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1340,7 +1340,7 @@ class _ReviewStep extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: AppTheme.fontSize3xl,
                         fontWeight: FontWeight.w700,
-                        color: AppTheme.green700,
+                        color: AppTheme.primary,
                       ),
                     ),
                   ],
@@ -1377,7 +1377,7 @@ class _ReviewSection extends StatelessWidget {
             style: const TextStyle(
               fontSize: AppTheme.fontSizeXs2,
               fontWeight: FontWeight.w500,
-              color: AppTheme.gray500,
+              color: AppTheme.textSecondary,
             ),
           ),
         ),
@@ -1418,13 +1418,13 @@ class _DoneStep extends StatelessWidget {
                   width: 80,
                   height: 80,
                   decoration: const BoxDecoration(
-                    color: AppTheme.green50,
+                    color: AppTheme.primarySurface,
                     shape: BoxShape.circle,
                   ),
                   alignment: Alignment.center,
                   child: const Icon(
                     Icons.check,
-                    color: AppTheme.green700,
+                    color: AppTheme.primary,
                     size: 44,
                   ),
                 ),
@@ -1442,14 +1442,14 @@ class _DoneStep extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: AppTheme.fontSizeBase,
-                    color: AppTheme.gray600,
+                    color: AppTheme.textSecondary,
                   ),
                 ),
                 const SizedBox(height: AppTheme.paddingLarge),
                 Container(
                   padding: const EdgeInsets.all(AppTheme.paddingMedium),
                   decoration: BoxDecoration(
-                    color: AppTheme.gray50,
+                    color: AppTheme.surface,
                     borderRadius:
                         BorderRadius.circular(AppTheme.radiusLg),
                   ),
@@ -1480,7 +1480,7 @@ class _DoneStep extends StatelessWidget {
                             style: TextStyle(
                               fontSize: AppTheme.fontSizeLg,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.green700,
+                              color: AppTheme.primary,
                             ),
                           ),
                           Text(
@@ -1488,7 +1488,7 @@ class _DoneStep extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: AppTheme.fontSizeXl,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.green700,
+                              color: AppTheme.primary,
                             ),
                           ),
                         ],
@@ -1530,10 +1530,10 @@ class _PrimaryButton extends StatelessWidget {
     final btn = ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppTheme.green600,
+        backgroundColor: AppTheme.primary,
         foregroundColor: Colors.white,
-        disabledBackgroundColor: AppTheme.gray300,
-        disabledForegroundColor: AppTheme.gray500,
+        disabledBackgroundColor: AppTheme.border,
+        disabledForegroundColor: AppTheme.textSecondary,
         padding: const EdgeInsets.symmetric(
           horizontal: AppTheme.paddingHuge,
           vertical: 18,

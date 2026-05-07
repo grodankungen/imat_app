@@ -69,7 +69,7 @@ class _ProductCardState extends State<ProductCard> {
           duration: const Duration(milliseconds: 150),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: AppTheme.gray200),
+            border: Border.all(color: AppTheme.border),
             borderRadius: BorderRadius.circular(AppTheme.radiusLg),
             boxShadow: [
               BoxShadow(
@@ -85,8 +85,8 @@ class _ProductCardState extends State<ProductCard> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () => widget.onOpenDetail(p),
-                splashColor: AppTheme.green50,
-                highlightColor: AppTheme.green50,
+                splashColor: AppTheme.primarySurface,
+                highlightColor: AppTheme.primarySurface,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -112,7 +112,7 @@ class _ProductCardState extends State<ProductCard> {
                             _categoryLabel(p),
                             style: const TextStyle(
                               fontSize: AppTheme.fontSizeSm,
-                              color: AppTheme.gray600,
+                              color: AppTheme.textSecondary,
                             ),
                           ),
                           const SizedBox(height: AppTheme.paddingSmall),
@@ -121,7 +121,7 @@ class _ProductCardState extends State<ProductCard> {
                             style: const TextStyle(
                               fontSize: AppTheme.fontSizeXl,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.green700,
+                              color: AppTheme.primary,
                             ),
                           ),
                           const SizedBox(height: AppTheme.paddingMediumSmall),
@@ -178,9 +178,9 @@ class _FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isFavorite ? AppTheme.red600 : AppTheme.gray600;
-    final border = isFavorite ? AppTheme.red500 : AppTheme.gray300;
-    final bg = isFavorite ? AppTheme.red50 : Colors.transparent;
+    final color = isFavorite ? AppTheme.danger : AppTheme.textSecondary;
+    final border = isFavorite ? AppTheme.danger : AppTheme.border;
+    final bg = isFavorite ? AppTheme.dangerSurface : Colors.transparent;
     return Builder(
       builder: (ctx) => Material(
         color: bg,
@@ -214,7 +214,7 @@ class _AddToCartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (ctx) => Material(
-        color: AppTheme.green600,
+        color: AppTheme.primary,
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         child: InkWell(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
@@ -252,8 +252,8 @@ class _QuantityControl extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.gray100,
-        border: Border.all(color: AppTheme.gray300, width: 2),
+        color: AppTheme.surface,
+        border: Border.all(color: AppTheme.border, width: 2),
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -289,7 +289,7 @@ class _QtyBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppTheme.green600,
+      color: AppTheme.primary,
       borderRadius: BorderRadius.circular(AppTheme.radiusSm),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppTheme.radiusSm),

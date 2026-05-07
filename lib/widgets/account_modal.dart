@@ -70,7 +70,7 @@ class _AccountModal extends StatelessWidget {
                           email,
                           style: const TextStyle(
                             fontSize: AppTheme.fontSizeSm,
-                            color: AppTheme.gray500,
+                            color: AppTheme.textSecondary,
                           ),
                         ),
                       ],
@@ -83,7 +83,7 @@ class _AccountModal extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(height: 1, color: AppTheme.gray200),
+            const Divider(height: 1, color: AppTheme.border),
             // Body
             Flexible(
               child: SingleChildScrollView(
@@ -209,7 +209,7 @@ class _AccountModal extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: TextButton.styleFrom(foregroundColor: AppTheme.red600),
+            style: TextButton.styleFrom(foregroundColor: AppTheme.danger),
             child: const Text('Ta bort'),
           ),
         ],
@@ -228,7 +228,7 @@ class _SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 22, color: AppTheme.gray900),
+        Icon(icon, size: 22, color: AppTheme.black),
         const SizedBox(width: AppTheme.paddingSmall),
         Text(
           title,
@@ -252,7 +252,7 @@ class _EmptyHint extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingSmall),
       child: Text(
         text,
-        style: const TextStyle(color: AppTheme.gray500, fontSize: AppTheme.fontSizeXs2),
+        style: const TextStyle(color: AppTheme.textSecondary, fontSize: AppTheme.fontSizeXs2),
       ),
     );
   }
@@ -266,20 +266,20 @@ class _StandardBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: AppTheme.green50,
+        color: AppTheme.primarySurface,
         borderRadius: BorderRadius.circular(AppTheme.radiusSm),
       ),
       child: const Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.star, size: 12, color: AppTheme.green700),
+          Icon(Icons.star, size: 12, color: AppTheme.primary),
           SizedBox(width: 4),
           Text(
             'Standard',
             style: TextStyle(
               fontSize: AppTheme.fontSizeXxs,
               fontWeight: FontWeight.w600,
-              color: AppTheme.green700,
+              color: AppTheme.primary,
             ),
           ),
         ],
@@ -306,7 +306,7 @@ class _AddressTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppTheme.gray50,
+      color: AppTheme.surface,
       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
@@ -318,7 +318,7 @@ class _AddressTile extends StatelessWidget {
             vertical: AppTheme.paddingMedium,
           ),
           decoration: BoxDecoration(
-            border: Border.all(color: AppTheme.gray200),
+            border: Border.all(color: AppTheme.border),
             borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           ),
           child: Row(
@@ -350,14 +350,14 @@ class _AddressTile extends StatelessWidget {
                       address.street,
                       style: const TextStyle(
                         fontSize: AppTheme.fontSizeSm,
-                        color: AppTheme.gray700,
+                        color: AppTheme.textPrimary,
                       ),
                     ),
                     Text(
                       '${address.postCode} ${address.city}'.trim(),
                       style: const TextStyle(
                         fontSize: AppTheme.fontSizeSm,
-                        color: AppTheme.gray700,
+                        color: AppTheme.textPrimary,
                       ),
                     ),
                     if (address.phone.isNotEmpty)
@@ -367,7 +367,7 @@ class _AddressTile extends StatelessWidget {
                           address.phone,
                           style: const TextStyle(
                             fontSize: AppTheme.fontSizeXs2,
-                            color: AppTheme.gray500,
+                            color: AppTheme.textSecondary,
                           ),
                         ),
                       ),
@@ -377,7 +377,7 @@ class _AddressTile extends StatelessWidget {
               IconButton(
                 icon: const Icon(
                   Icons.delete_outline,
-                  color: AppTheme.red500,
+                  color: AppTheme.danger,
                 ),
                 onPressed: onDelete,
               ),
@@ -407,7 +407,7 @@ class _CardTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppTheme.gray50,
+      color: AppTheme.surface,
       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
@@ -419,7 +419,7 @@ class _CardTile extends StatelessWidget {
             vertical: AppTheme.paddingMedium,
           ),
           decoration: BoxDecoration(
-            border: Border.all(color: AppTheme.gray200),
+            border: Border.all(color: AppTheme.border),
             borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           ),
           child: Row(
@@ -427,7 +427,7 @@ class _CardTile extends StatelessWidget {
               const Icon(
                 Icons.credit_card,
                 size: 22,
-                color: AppTheme.gray700,
+                color: AppTheme.textPrimary,
               ),
               const SizedBox(width: AppTheme.paddingMedium),
               Expanded(
@@ -457,7 +457,7 @@ class _CardTile extends StatelessWidget {
                       '${card.holder.toUpperCase()}  •  ${card.expiry}',
                       style: const TextStyle(
                         fontSize: AppTheme.fontSizeXs,
-                        color: AppTheme.gray600,
+                        color: AppTheme.textSecondary,
                         letterSpacing: 0.4,
                       ),
                     ),
@@ -467,7 +467,7 @@ class _CardTile extends StatelessWidget {
               IconButton(
                 icon: const Icon(
                   Icons.delete_outline,
-                  color: AppTheme.red500,
+                  color: AppTheme.danger,
                 ),
                 onPressed: onDelete,
               ),
@@ -498,21 +498,21 @@ class _AddDashedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         onTap: onTap,
         child: DottedBorder(
-          color: AppTheme.gray300,
+          color: AppTheme.border,
           radius: AppTheme.radiusLg,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, color: AppTheme.gray700),
+                Icon(icon, color: AppTheme.textPrimary),
                 const SizedBox(width: AppTheme.paddingSmall),
                 Text(
                   label,
                   style: const TextStyle(
                     fontSize: AppTheme.fontSizeBase,
                     fontWeight: FontWeight.w500,
-                    color: AppTheme.gray700,
+                    color: AppTheme.textPrimary,
                   ),
                 ),
               ],

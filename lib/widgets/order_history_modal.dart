@@ -58,7 +58,7 @@ class _OrderHistoryModal extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(height: 1, color: AppTheme.gray200),
+            const Divider(height: 1, color: AppTheme.border),
             // Body
             Flexible(
               child: orders.isEmpty
@@ -68,7 +68,7 @@ class _OrderHistoryModal extends StatelessWidget {
                         'Du har inga tidigare beställningar.',
                         style: TextStyle(
                           fontSize: AppTheme.fontSizeBase,
-                          color: AppTheme.gray500,
+                          color: AppTheme.textSecondary,
                         ),
                       ),
                     )
@@ -126,9 +126,9 @@ class _OrderCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.gray50,
+        color: AppTheme.surface,
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        border: Border.all(color: AppTheme.gray200),
+        border: Border.all(color: AppTheme.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -160,14 +160,14 @@ class _OrderCard extends StatelessWidget {
                         _fmt(order.date),
                         style: const TextStyle(
                           fontSize: AppTheme.fontSizeXs2,
-                          color: AppTheme.gray600,
+                          color: AppTheme.textSecondary,
                         ),
                       ),
                       Text(
                         '$deliveryLabel  •  $paymentLabel',
                         style: const TextStyle(
                           fontSize: AppTheme.fontSizeXs2,
-                          color: AppTheme.gray500,
+                          color: AppTheme.textSecondary,
                         ),
                       ),
                     ],
@@ -181,13 +181,13 @@ class _OrderCard extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: AppTheme.fontSize3xl,
                         fontWeight: FontWeight.w700,
-                        color: AppTheme.green700,
+                        color: AppTheme.primary,
                       ),
                     ),
                     const SizedBox(height: 6),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.green600,
+                        backgroundColor: AppTheme.primary,
                         foregroundColor: Colors.white,
                         elevation: 0,
                         padding: const EdgeInsets.symmetric(
@@ -236,10 +236,10 @@ class _OrderCard extends StatelessWidget {
           // Items
           for (int i = 0; i < order.items.length; i++) ...[
             if (i == 0)
-              const Divider(height: 1, color: AppTheme.gray200),
+              const Divider(height: 1, color: AppTheme.border),
             _OrderItemRow(item: order.items[i], iMat: iMat),
             if (i < order.items.length - 1)
-              const Divider(height: 1, color: AppTheme.gray200),
+              const Divider(height: 1, color: AppTheme.border),
           ],
         ],
       ),
@@ -288,7 +288,7 @@ class _OrderItemRow extends StatelessWidget {
                   '${item.amount.toStringAsFixed(0)} × ${item.product.price.toStringAsFixed(2)} kr',
                   style: const TextStyle(
                     fontSize: AppTheme.fontSizeXs,
-                    color: AppTheme.gray500,
+                    color: AppTheme.textSecondary,
                   ),
                 ),
               ],

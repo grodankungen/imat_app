@@ -54,7 +54,7 @@ class _ProductDetail extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(AppTheme.paddingLarge),
               decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: AppTheme.gray200)),
+                border: Border(bottom: BorderSide(color: AppTheme.border)),
               ),
               child: Row(
                 children: [
@@ -97,7 +97,7 @@ class _ProductDetail extends StatelessWidget {
                           _categoryLabel(product),
                           style: const TextStyle(
                             fontSize: AppTheme.fontSizeXl,
-                            color: AppTheme.gray600,
+                            color: AppTheme.textSecondary,
                           ),
                         ),
                         const SizedBox(height: AppTheme.paddingMedium),
@@ -106,7 +106,7 @@ class _ProductDetail extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: AppTheme.fontSize7xl,
                             fontWeight: FontWeight.w700,
-                            color: AppTheme.green700,
+                            color: AppTheme.primary,
                           ),
                         ),
                         const SizedBox(height: AppTheme.paddingLarge),
@@ -125,7 +125,7 @@ class _ProductDetail extends StatelessWidget {
                             'Ursprung: ${detail.origin}',
                             style: const TextStyle(
                               fontSize: AppTheme.fontSizeBase,
-                              color: AppTheme.gray600,
+                              color: AppTheme.textSecondary,
                             ),
                           ),
                         ],
@@ -182,9 +182,9 @@ class _DetailFavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isFavorite ? AppTheme.red600 : AppTheme.gray700;
-    final border = isFavorite ? AppTheme.red500 : AppTheme.gray300;
-    final bg = isFavorite ? AppTheme.red50 : Colors.transparent;
+    final color = isFavorite ? AppTheme.danger : AppTheme.textPrimary;
+    final border = isFavorite ? AppTheme.danger : AppTheme.border;
+    final bg = isFavorite ? AppTheme.dangerSurface : Colors.transparent;
     return SizedBox(
       width: double.infinity,
       child: Material(
@@ -244,7 +244,7 @@ class _DetailAddCartButton extends StatelessWidget {
           }
 
           return Material(
-            color: AppTheme.green600,
+            color: AppTheme.primary,
             borderRadius: BorderRadius.circular(AppTheme.radiusLg),
             child: InkWell(
               borderRadius: BorderRadius.circular(AppTheme.radiusLg),

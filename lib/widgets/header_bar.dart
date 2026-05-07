@@ -35,7 +35,7 @@ class HeaderBar extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(bottom: BorderSide(color: AppTheme.gray200)),
+        border: Border(bottom: BorderSide(color: AppTheme.border)),
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: AppTheme.paddingHuge,
@@ -55,7 +55,7 @@ class HeaderBar extends StatelessWidget {
                   style: TextStyle(
                     fontSize: AppTheme.fontSize5xl,
                     fontWeight: FontWeight.w600,
-                    color: AppTheme.green700,
+                    color: AppTheme.primary,
                   ),
                 ),
               ),
@@ -113,8 +113,8 @@ class _SearchField extends StatelessWidget {
       style: const TextStyle(fontSize: AppTheme.fontSizeLg),
       decoration: InputDecoration(
         hintText: 'Sök varor...',
-        hintStyle: const TextStyle(color: AppTheme.gray400, fontSize: AppTheme.fontSizeLg),
-        prefixIcon: const Icon(Icons.search, color: AppTheme.gray400, size: 20),
+        hintStyle: const TextStyle(color: AppTheme.hint, fontSize: AppTheme.fontSizeLg),
+        prefixIcon: const Icon(Icons.search, color: AppTheme.hint, size: 20),
         prefixIconConstraints: const BoxConstraints(
           minWidth: 48,
           minHeight: 24,
@@ -127,15 +127,15 @@ class _SearchField extends StatelessWidget {
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          borderSide: const BorderSide(color: AppTheme.gray300),
+          borderSide: const BorderSide(color: AppTheme.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          borderSide: const BorderSide(color: AppTheme.gray300),
+          borderSide: const BorderSide(color: AppTheme.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          borderSide: const BorderSide(color: AppTheme.green500, width: 2),
+          borderSide: const BorderSide(color: AppTheme.primary, width: 2),
         ),
       ),
     );
@@ -159,14 +159,14 @@ class _LoginButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: const [
-              Icon(Icons.person_outline, size: 22, color: AppTheme.gray900),
+              Icon(Icons.person_outline, size: 22, color: AppTheme.black),
               SizedBox(width: AppTheme.paddingSmall),
               Text(
                 'Logga in',
                 style: TextStyle(
                   fontSize: AppTheme.fontSizeLg,
                   fontWeight: FontWeight.w700,
-                  color: AppTheme.gray900,
+                  color: AppTheme.black,
                 ),
               ),
             ],
@@ -192,7 +192,7 @@ class _FavoritesButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: active ? AppTheme.red600 : Colors.transparent,
+      color: active ? AppTheme.danger : Colors.transparent,
       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
@@ -203,7 +203,7 @@ class _FavoritesButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppTheme.radiusLg),
             border: active
                 ? null
-                : Border.all(color: AppTheme.gray300, width: 2),
+                : Border.all(color: AppTheme.border, width: 2),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -211,7 +211,7 @@ class _FavoritesButton extends StatelessWidget {
               Icon(
                 active ? Icons.favorite : Icons.favorite_border,
                 size: 22,
-                color: active ? Colors.white : AppTheme.gray700,
+                color: active ? Colors.white : AppTheme.textPrimary,
               ),
               const SizedBox(width: AppTheme.paddingSmall),
               Text(
@@ -219,7 +219,7 @@ class _FavoritesButton extends StatelessWidget {
                 style: TextStyle(
                   fontSize: AppTheme.fontSizeLg,
                   fontWeight: FontWeight.w500,
-                  color: active ? Colors.white : AppTheme.gray700,
+                  color: active ? Colors.white : AppTheme.textPrimary,
                 ),
               ),
             ],
@@ -343,7 +343,7 @@ class _AccountMenuState extends State<_AccountMenu> {
                 const Icon(
                   Icons.person_outline,
                   size: 22,
-                  color: AppTheme.gray900,
+                  color: AppTheme.black,
                 ),
                 const SizedBox(width: AppTheme.paddingSmall),
                 const Text(
@@ -351,7 +351,7 @@ class _AccountMenuState extends State<_AccountMenu> {
                   style: TextStyle(
                     fontSize: AppTheme.fontSizeLg,
                     fontWeight: FontWeight.w700,
-                    color: AppTheme.gray900,
+                    color: AppTheme.black,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -360,7 +360,7 @@ class _AccountMenuState extends State<_AccountMenu> {
                       ? Icons.keyboard_arrow_up
                       : Icons.keyboard_arrow_down,
                   size: 20,
-                  color: AppTheme.gray900,
+                  color: AppTheme.black,
                 ),
               ],
             ),
@@ -386,7 +386,7 @@ class _AccountMenuPopup extends StatelessWidget {
         width: 280,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          border: Border.all(color: AppTheme.gray200),
+          border: Border.all(color: AppTheme.border),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -402,7 +402,7 @@ class _AccountMenuPopup extends StatelessWidget {
                     'Inloggad som',
                     style: TextStyle(
                       fontSize: AppTheme.fontSizeXs,
-                      color: AppTheme.gray500,
+                      color: AppTheme.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -411,13 +411,13 @@ class _AccountMenuPopup extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: AppTheme.fontSizeSm,
                       fontWeight: FontWeight.w700,
-                      color: AppTheme.gray900,
+                      color: AppTheme.black,
                     ),
                   ),
                 ],
               ),
             ),
-            const Divider(height: 1, color: AppTheme.gray200),
+            const Divider(height: 1, color: AppTheme.border),
             _MenuItem(
               icon: Icons.settings_outlined,
               label: 'Kontouppgifter',
@@ -428,7 +428,7 @@ class _AccountMenuPopup extends StatelessWidget {
               label: 'Historik',
               onTap: () => onItem('history'),
             ),
-            const Divider(height: 1, color: AppTheme.gray200),
+            const Divider(height: 1, color: AppTheme.border),
             _MenuItem(
               icon: Icons.logout,
               label: 'Logga ut',
@@ -457,7 +457,7 @@ class _MenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = destructive ? AppTheme.red600 : AppTheme.gray900;
+    final color = destructive ? AppTheme.danger : AppTheme.black;
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -493,7 +493,7 @@ class _CartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppTheme.green600,
+      color: AppTheme.primary,
       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
