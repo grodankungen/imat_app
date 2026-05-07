@@ -210,7 +210,7 @@ class _DetailFavButton extends StatelessWidget {
                 ),
                 const SizedBox(width: AppTheme.paddingSmall),
                 Text(
-                  isFavorite ? 'I favoriter' : 'Lägg till favoriter',
+                  isFavorite ? 'Ta bort favorit' : 'Lägg till favorit',
                   style: TextStyle(
                     fontSize: AppTheme.fontSizeXl,
                     fontWeight: FontWeight.w500,

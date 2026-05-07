@@ -189,7 +189,7 @@ class _FavoriteButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           onTap: () => onTap(ctx),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
               border: Border.all(color: border, width: 2),
               borderRadius: BorderRadius.circular(AppTheme.radiusLg),
@@ -220,7 +220,7 @@ class _AddToCartButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           onTap: () => onTap(ctx),
           child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 9),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

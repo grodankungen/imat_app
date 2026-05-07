@@ -211,16 +211,14 @@ class _ProductsArea extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: AppTheme.paddingMedium),
-            child: Text(
-              heading,
-              style: const TextStyle(
-                fontSize: AppTheme.fontSize6xl,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: AppTheme.paddingMedium),
+          //   child: Text(
+          //     heading,
+          //     style: const TextStyle(
+          //       fontSize: AppTheme.fontSize6xl,
+          //       fontWeight: FontWeight.w500,
+              // ),
           Expanded(
             child: products.isEmpty
                 ? const Center(
@@ -248,7 +246,7 @@ class _ProductsArea extends StatelessWidget {
                           crossAxisCount: columns,
                           crossAxisSpacing: AppTheme.paddingMedium,
                           mainAxisSpacing: AppTheme.paddingMedium,
-                          mainAxisExtent: 290,
+                          mainAxisExtent: 378,
                         ),
                         itemCount: products.length,
                         itemBuilder: (_, i) => ProductCard(

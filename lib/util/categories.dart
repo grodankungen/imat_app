@@ -21,17 +21,19 @@ const CategoryGroup allProducts = CategoryGroup(
 
 const List<CategoryGroup> categoryGroups = [
   allProducts,
-  CategoryGroup('Frukt & Grönt', Icons.eco_outlined, [
+  CategoryGroup('Frukt & bär', Icons.apple, [
     ProductCategory.FRUIT,
     ProductCategory.BERRY,
     ProductCategory.CITRUS_FRUIT,
     ProductCategory.EXOTIC_FRUIT,
     ProductCategory.MELONS,
+  ]),
+  CategoryGroup('Grönsaker & rotfrukter', Icons.eco_outlined, [
     ProductCategory.VEGETABLE_FRUIT,
     ProductCategory.CABBAGE,
     ProductCategory.ROOT_VEGETABLE,
     ProductCategory.POD,
-    ProductCategory.HERB,
+    ProductCategory.HERB
   ]),
   CategoryGroup('Mejeri & Ägg', Icons.local_drink_outlined, [
     ProductCategory.DAIRIES,
@@ -47,11 +49,13 @@ const List<CategoryGroup> categoryGroups = [
     ProductCategory.HOT_DRINKS,
     ProductCategory.COLD_DRINKS,
   ]),
+  CategoryGroup('Nötter och frön', Icons.circle_outlined, [
+    ProductCategory.NUTS_AND_SEEDS
+  ]),
   CategoryGroup('Skafferi', Icons.kitchen_outlined, [
     ProductCategory.PASTA,
     ProductCategory.POTATO_RICE,
     ProductCategory.FLOUR_SUGAR_SALT,
-    ProductCategory.NUTS_AND_SEEDS,
     ProductCategory.SWEET,
   ]),
 ];
