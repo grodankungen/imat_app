@@ -75,13 +75,13 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.gray50,
+      backgroundColor: AppTheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.gray900),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.black),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
@@ -89,12 +89,12 @@ class _LoginPageState extends State<LoginPage>
           style: TextStyle(
             fontSize: AppTheme.fontSize3xl,
             fontWeight: FontWeight.w700,
-            color: AppTheme.gray900,
+            color: AppTheme.black,
           ),
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(height: 1, color: AppTheme.gray200),
+          child: Container(height: 1, color: AppTheme.border),
         ),
       ),
       body: Center(
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage>
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(AppTheme.radiusXl),
-                    border: Border.all(color: AppTheme.gray200),
+                    border: Border.all(color: AppTheme.border),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.05),
@@ -124,15 +124,15 @@ class _LoginPageState extends State<LoginPage>
                       Container(
                         decoration: const BoxDecoration(
                           border: Border(
-                            bottom: BorderSide(color: AppTheme.gray200),
+                            bottom: BorderSide(color: AppTheme.border),
                           ),
                         ),
                         child: TabBar(
                           controller: _tab,
-                          indicatorColor: AppTheme.green600,
+                          indicatorColor: AppTheme.primary,
                           indicatorWeight: 2,
-                          labelColor: AppTheme.green700,
-                          unselectedLabelColor: AppTheme.gray500,
+                          labelColor: AppTheme.primary,
+                          unselectedLabelColor: AppTheme.textSecondary,
                           labelStyle: const TextStyle(
                             fontSize: AppTheme.fontSizeBase,
                             fontWeight: FontWeight.w600,
@@ -236,7 +236,7 @@ class _LoginForm extends StatelessWidget {
               suffixIcon: IconButton(
                 icon: Icon(
                   obscurePassword ? Icons.visibility_off : Icons.visibility,
-                  color: AppTheme.gray400,
+                  color: AppTheme.hint,
                 ),
                 onPressed: onToggleObscure,
               ),
@@ -249,7 +249,7 @@ class _LoginForm extends StatelessWidget {
             ElevatedButton(
               onPressed: onSubmit,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.green600,
+                backgroundColor: AppTheme.primary,
                 foregroundColor: Colors.white,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -346,7 +346,7 @@ class _RegisterForm extends StatelessWidget {
               suffixIcon: IconButton(
                 icon: Icon(
                   obscurePassword ? Icons.visibility_off : Icons.visibility,
-                  color: AppTheme.gray400,
+                  color: AppTheme.hint,
                 ),
                 onPressed: onToggleObscure1,
               ),
@@ -363,7 +363,7 @@ class _RegisterForm extends StatelessWidget {
               suffixIcon: IconButton(
                 icon: Icon(
                   obscurePassword2 ? Icons.visibility_off : Icons.visibility,
-                  color: AppTheme.gray400,
+                  color: AppTheme.hint,
                 ),
                 onPressed: onToggleObscure2,
               ),
@@ -376,7 +376,7 @@ class _RegisterForm extends StatelessWidget {
             ElevatedButton(
               onPressed: onSubmit,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.green600,
+                backgroundColor: AppTheme.primary,
                 foregroundColor: Colors.white,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -428,19 +428,19 @@ class _Field extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          borderSide: const BorderSide(color: AppTheme.gray300),
+          borderSide: const BorderSide(color: AppTheme.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          borderSide: const BorderSide(color: AppTheme.green500, width: 2),
+          borderSide: const BorderSide(color: AppTheme.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          borderSide: const BorderSide(color: AppTheme.red500),
+          borderSide: const BorderSide(color: AppTheme.danger),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          borderSide: const BorderSide(color: AppTheme.red500, width: 2),
+          borderSide: const BorderSide(color: AppTheme.danger, width: 2),
         ),
       ),
     );

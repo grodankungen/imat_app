@@ -24,7 +24,7 @@ class CartSidebar extends StatelessWidget {
       child: Container(
         width: AppTheme.cartWidth,
         decoration: const BoxDecoration(
-          border: Border(left: BorderSide(color: AppTheme.gray200)),
+          border: Border(left: BorderSide(color: AppTheme.border)),
         ),
         child: Column(
           children: [
@@ -57,7 +57,7 @@ class CartSidebar extends StatelessWidget {
                         child: Text(
                           'Din kundvagn är tom',
                           style: TextStyle(
-                            color: AppTheme.gray500,
+                            color: AppTheme.textSecondary,
                             fontSize: AppTheme.fontSizeLg,
                           ),
                         ),
@@ -79,7 +79,7 @@ class CartSidebar extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(AppTheme.paddingMediumLarge),
                 decoration: const BoxDecoration(
-                  border: Border(top: BorderSide(color: AppTheme.gray200)),
+                  border: Border(top: BorderSide(color: AppTheme.border)),
                 ),
                 child: Column(
                   children: [
@@ -98,7 +98,7 @@ class CartSidebar extends StatelessWidget {
                             '${total.toStringAsFixed(2)} kr',
                             style: const TextStyle(
                               fontSize: AppTheme.fontSizeXl,
-                              color: AppTheme.green700,
+                              color: AppTheme.primary,
                             ),
                           ),
                         ],
@@ -108,7 +108,7 @@ class CartSidebar extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: Material(
-                        color: AppTheme.green600,
+                        color: AppTheme.primary,
                         borderRadius:
                             BorderRadius.circular(AppTheme.radiusLg),
                         child: InkWell(
@@ -150,7 +150,7 @@ class CartSidebar extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: Material(
-                        color: AppTheme.red50,
+                        color: AppTheme.dangerSurface,
                         borderRadius:
                             BorderRadius.circular(AppTheme.radiusLg),
                         child: InkWell(
@@ -165,14 +165,14 @@ class CartSidebar extends StatelessWidget {
                                 Icon(
                                   Icons.delete,
                                   size: 20,
-                                  color: AppTheme.red600,
+                                  color: AppTheme.danger,
                                 ),
                                 SizedBox(width: AppTheme.paddingSmall),
                                 Text(
                                   'Töm kundvagn',
                                   style: TextStyle(
                                     fontSize: AppTheme.fontSizeLg,
-                                    color: AppTheme.red600,
+                                    color: AppTheme.danger,
                                   ),
                                 ),
                               ],
@@ -202,7 +202,7 @@ class _CartItemTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppTheme.paddingMediumSmall),
       decoration: BoxDecoration(
-        color: AppTheme.gray50,
+        color: AppTheme.surface,
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       ),
       child: Row(
@@ -232,7 +232,7 @@ class _CartItemTile extends StatelessWidget {
                 ),
                 Text(
                   '${item.product.price.toStringAsFixed(2)} ${item.product.unit}',
-                  style: const TextStyle(color: AppTheme.green700, fontWeight: FontWeight.w700),
+                  style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: AppTheme.paddingSmall),
                 Row(
@@ -264,13 +264,13 @@ class _CartItemTile extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.delete_outline, color: AppTheme.red500, size: 18),
+                  Icon(Icons.delete_outline, color: AppTheme.danger, size: 18),
                   SizedBox(width: 4),
                   Text(
                     'Ta bort',
                     style: TextStyle(
                       fontSize: AppTheme.fontSizeXs,
-                      color: AppTheme.red500,
+                      color: AppTheme.danger,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -292,7 +292,7 @@ class _SmallQtyBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppTheme.gray200,
+      color: AppTheme.border,
       borderRadius: BorderRadius.circular(AppTheme.radiusSm),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppTheme.radiusSm),

@@ -27,7 +27,7 @@ Future<void> showClearCartModal(BuildContext context) {
               const SizedBox(height: AppTheme.paddingMedium),
               const Text(
                 'Är du säker på att du vill ta bort alla produkter från kundvagnen?',
-                style: TextStyle(fontSize: AppTheme.fontSizeLg, color: AppTheme.gray600),
+                style: TextStyle(fontSize: AppTheme.fontSizeLg, color: AppTheme.textSecondary),
               ),
               const SizedBox(height: AppTheme.paddingLarge),
               Row(
@@ -36,7 +36,7 @@ Future<void> showClearCartModal(BuildContext context) {
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(
-                          color: AppTheme.gray300,
+                          color: AppTheme.border,
                           width: 2,
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -50,7 +50,7 @@ Future<void> showClearCartModal(BuildContext context) {
                         'Avbryt',
                         style: TextStyle(
                           fontSize: AppTheme.fontSizeLg,
-                          color: AppTheme.gray900,
+                          color: AppTheme.black,
                         ),
                       ),
                     ),
@@ -59,7 +59,7 @@ Future<void> showClearCartModal(BuildContext context) {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.red600,
+                        backgroundColor: AppTheme.danger,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius:

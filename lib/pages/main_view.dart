@@ -114,7 +114,7 @@ class _MainViewState extends State<MainView>
     final products = _filteredProducts(iMat, ui);
 
     return Scaffold(
-      backgroundColor: AppTheme.gray50,
+      backgroundColor: AppTheme.surface,
       body: Stack(
         children: [
           Column(
@@ -227,7 +227,7 @@ class _ProductsArea extends StatelessWidget {
                     child: Text(
                       'Inga produkter hittades',
                       style:
-                          TextStyle(fontSize: AppTheme.fontSizeLg, color: AppTheme.gray500),
+                          TextStyle(fontSize: AppTheme.fontSizeLg, color: AppTheme.textSecondary),
                     ),
                   )
                 : LayoutBuilder(

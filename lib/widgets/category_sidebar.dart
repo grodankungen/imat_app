@@ -15,7 +15,7 @@ class CategorySidebar extends StatelessWidget {
       width: AppTheme.sidebarWidth,
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(right: BorderSide(color: AppTheme.gray200)),
+        border: Border(right: BorderSide(color: AppTheme.border)),
       ),
       padding: const EdgeInsets.all(AppTheme.paddingMediumLarge),
       child: SingleChildScrollView(
@@ -59,8 +59,8 @@ class _CategoryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = selected ? AppTheme.green600 : AppTheme.gray100;
-    final fg = selected ? Colors.white : AppTheme.gray900;
+    final bg = selected ? AppTheme.primary : AppTheme.surface;
+    final fg = selected ? Colors.white : AppTheme.black;
 
     return Material(
       color: bg,
@@ -68,7 +68,7 @@ class _CategoryButton extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         onTap: onTap,
-        hoverColor: selected ? null : AppTheme.gray200,
+        hoverColor: selected ? null : AppTheme.border,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
