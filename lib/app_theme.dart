@@ -15,9 +15,9 @@ class AppTheme {
   static const Color primary = Color(0xFF16A34A);
   static const Color primarySurface = Color(0xFFF0FDF4);
 
-  // Danger (destructive / favorite)
-  static const Color danger = Color(0xFFDC2626);
-  static const Color dangerSurface = Color(0xFFFEF2F2);
+  // Favorite
+  static const Color favorite = Color(0xFFDC2626);
+  static const Color favoriteSurface = Color(0xFFFEF2F2);
 
   // Neutrals
   static const Color white = Color(0xFFFFFFFF);

@@ -182,9 +182,9 @@ class _DetailFavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isFavorite ? AppTheme.danger : AppTheme.textPrimary;
-    final border = isFavorite ? AppTheme.danger : AppTheme.border;
-    final bg = isFavorite ? AppTheme.dangerSurface : Colors.transparent;
+    final color = isFavorite ? AppTheme.favorite : AppTheme.textPrimary;
+    final border = isFavorite ? AppTheme.favorite : AppTheme.border;
+    final bg = isFavorite ? AppTheme.favoriteSurface : Colors.transparent;
     return SizedBox(
       width: double.infinity,
       child: Material(

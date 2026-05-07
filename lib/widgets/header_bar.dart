@@ -192,7 +192,7 @@ class _FavoritesButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: active ? AppTheme.danger : Colors.transparent,
+      color: active ? AppTheme.favorite : Colors.transparent,
       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
@@ -457,7 +457,7 @@ class _MenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = destructive ? AppTheme.danger : AppTheme.black;
+    final color = destructive ? AppTheme.favorite : AppTheme.black;
     return InkWell(
       onTap: onTap,
       child: Padding(

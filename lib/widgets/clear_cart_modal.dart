@@ -59,7 +59,7 @@ Future<void> showClearCartModal(BuildContext context) {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.danger,
+                        backgroundColor: AppTheme.favorite,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius:

@@ -178,9 +178,9 @@ class _FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isFavorite ? AppTheme.danger : AppTheme.textSecondary;
-    final border = isFavorite ? AppTheme.danger : AppTheme.border;
-    final bg = isFavorite ? AppTheme.dangerSurface : Colors.transparent;
+    final color = isFavorite ? AppTheme.favorite : AppTheme.textSecondary;
+    final border = isFavorite ? AppTheme.favorite : AppTheme.border;
+    final bg = isFavorite ? AppTheme.favoriteSurface : Colors.transparent;
     return Builder(
       builder: (ctx) => Material(
         color: bg,

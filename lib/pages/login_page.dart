@@ -436,11 +436,11 @@ class _Field extends StatelessWidget {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          borderSide: const BorderSide(color: AppTheme.danger),
+          borderSide: const BorderSide(color: AppTheme.favorite),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          borderSide: const BorderSide(color: AppTheme.danger, width: 2),
+          borderSide: const BorderSide(color: AppTheme.favorite, width: 2),
         ),
       ),
     );

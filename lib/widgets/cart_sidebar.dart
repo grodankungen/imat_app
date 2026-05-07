@@ -150,7 +150,7 @@ class CartSidebar extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: Material(
-                        color: AppTheme.dangerSurface,
+                        color: AppTheme.favoriteSurface,
                         borderRadius:
                             BorderRadius.circular(AppTheme.radiusLg),
                         child: InkWell(
@@ -165,14 +165,14 @@ class CartSidebar extends StatelessWidget {
                                 Icon(
                                   Icons.delete,
                                   size: 20,
-                                  color: AppTheme.danger,
+                                  color: AppTheme.favorite,
                                 ),
                                 SizedBox(width: AppTheme.paddingSmall),
                                 Text(
                                   'Töm kundvagn',
                                   style: TextStyle(
                                     fontSize: AppTheme.fontSizeLg,
-                                    color: AppTheme.danger,
+                                    color: AppTheme.favorite,
                                   ),
                                 ),
                               ],
@@ -264,13 +264,13 @@ class _CartItemTile extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.delete_outline, color: AppTheme.danger, size: 18),
+                  Icon(Icons.delete_outline, color: AppTheme.favorite, size: 18),
                   SizedBox(width: 4),
                   Text(
                     'Ta bort',
                     style: TextStyle(
                       fontSize: AppTheme.fontSizeXs,
-                      color: AppTheme.danger,
+                      color: AppTheme.favorite,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

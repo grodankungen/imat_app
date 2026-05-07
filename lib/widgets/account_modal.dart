@@ -209,7 +209,7 @@ class _AccountModal extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: TextButton.styleFrom(foregroundColor: AppTheme.danger),
+            style: TextButton.styleFrom(foregroundColor: AppTheme.favorite),
             child: const Text('Ta bort'),
           ),
         ],
@@ -377,7 +377,7 @@ class _AddressTile extends StatelessWidget {
               IconButton(
                 icon: const Icon(
                   Icons.delete_outline,
-                  color: AppTheme.danger,
+                  color: AppTheme.favorite,
                 ),
                 onPressed: onDelete,
               ),
@@ -467,7 +467,7 @@ class _CardTile extends StatelessWidget {
               IconButton(
                 icon: const Icon(
                   Icons.delete_outline,
-                  color: AppTheme.danger,
+                  color: AppTheme.favorite,
                 ),
                 onPressed: onDelete,
               ),
