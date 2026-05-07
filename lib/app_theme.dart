@@ -12,17 +12,16 @@ class AppTheme {
   static const double paddingHuge = 32.0;
 
   // Brand green
-  static const Color primary = Color(0xFF16A34A);
-  static const Color primarySurface = Color(0xFFF0FDF4);
+  static const Color primary = Color.fromARGB(255, 70, 132, 82);
+  static const Color primarySurface = Color.fromARGB(255, 208, 234, 208);
 
   // Favorite
-  static const Color favorite = Color(0xFFDC2626);
+  static const Color favorite = Color(0xFFBC4749);
   static const Color favoriteSurface = Color(0xFFFEF2F2);
 
   // Neutrals
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color surface = Color(0xFFF9FAFB);
-  static const Color border = Color(0xFFE5E7EB);
+  static const Color surface = Color.fromARGB(255, 237, 238, 240);
+  static const Color border = Color.fromARGB(255, 191, 193, 196);
   static const Color hint = Color(0xFF9CA3AF);
   static const Color textSecondary = Color(0xFF6B7280);
   static const Color textPrimary = Color(0xFF374151);
