@@ -12,11 +12,11 @@ class AppTheme {
   static const double paddingHuge = 32.0;
 
   // Brand green
-  static const Color primary = Color.fromARGB(255, 70, 132, 82);
+  static const Color primary = Color.fromARGB(255, 59, 152, 61);
   static const Color primarySurface = Color.fromARGB(255, 208, 234, 208);
 
   // Favorite
-  static const Color favorite = Color(0xFFBC4749);
+  static const Color favorite = Color.fromARGB(255, 199, 66, 68);
   static const Color favoriteSurface = Color(0xFFFEF2F2);
 
   // Neutrals
