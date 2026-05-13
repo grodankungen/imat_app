@@ -41,9 +41,7 @@ class _MainViewState extends State<MainView>
     _cartSlide = Tween<Offset>(
       begin: const Offset(1, 0),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _cartCtrl, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _cartCtrl, curve: Curves.easeOutCubic));
   }
 
   @override
@@ -85,8 +83,9 @@ class _MainViewState extends State<MainView>
     } else if (ui.selectedCategory == allProducts) {
       base = iMat.products;
     } else {
-      base = iMat.products
-          .where((p) => ui.selectedCategory.contains(p.category));
+      base = iMat.products.where(
+        (p) => ui.selectedCategory.contains(p.category),
+      );
     }
     final q = ui.searchQuery.trim().toLowerCase();
     if (q.isNotEmpty) {
@@ -137,16 +136,18 @@ class _MainViewState extends State<MainView>
                         child: _ProductsArea(
                           heading: _heading(ui),
                           products: products,
-                          onOpenDetail: (p) => showProductDetailModal(
-                            context,
-                            p,
-                            onAddToCart: (origin) => _flyTo(
-                              origin,
-                              _centerOfKey(_cartButtonKey),
-                              p,
-                              iMat,
-                            ),
-                          ),
+                          onOpenDetail:
+                              (p) => showProductDetailModal(
+                                context,
+                                p,
+                                onAddToCart:
+                                    (origin) => _flyTo(
+                                      origin,
+                                      _centerOfKey(_cartButtonKey),
+                                      p,
+                                      iMat,
+                                    ),
+                              ),
                           onFlyToCart: (origin, p) {
                             _flyTo(
                               origin,
@@ -211,53 +212,59 @@ class _ProductsArea extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(bottom: AppTheme.paddingMedium),
-          //   child: Text(
-          //     heading,
-          //     style: const TextStyle(
-          //       fontSize: AppTheme.fontSize6xl,
-          //       fontWeight: FontWeight.w500,
-              // ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppTheme.paddingMedium),
+            child: Text(
+              heading,
+              style: const TextStyle(
+                fontSize: AppTheme.fontSize6xl,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
           Expanded(
-            child: products.isEmpty
-                ? const Center(
-                    child: Text(
-                      'Inga produkter hittades',
-                      style:
-                          TextStyle(fontSize: AppTheme.fontSizeLg, color: AppTheme.textSecondary),
+            child:
+                products.isEmpty
+                    ? const Center(
+                      child: Text(
+                        'Inga produkter hittades',
+                        style: TextStyle(
+                          fontSize: AppTheme.fontSizeLg,
+                          color: AppTheme.textSecondary,
+                        ),
+                      ),
+                    )
+                    : LayoutBuilder(
+                      builder: (ctx, c) {
+                        int columns;
+                        if (c.maxWidth >= 950) {
+                          columns = 4;
+                        } else if (c.maxWidth >= 620) {
+                          columns = 3;
+                        } else if (c.maxWidth >= 400) {
+                          columns = 2;
+                        } else {
+                          columns = 1;
+                        }
+                        return GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: columns,
+                                crossAxisSpacing: AppTheme.paddingMedium,
+                                mainAxisSpacing: AppTheme.paddingMedium,
+                                mainAxisExtent: 378,
+                              ),
+                          itemCount: products.length,
+                          itemBuilder:
+                              (_, i) => ProductCard(
+                                product: products[i],
+                                onOpenDetail: onOpenDetail,
+                                onFlyToCart: onFlyToCart,
+                                onFlyToFavorites: onFlyToFavorites,
+                              ),
+                        );
+                      },
                     ),
-                  )
-                : LayoutBuilder(
-                    builder: (ctx, c) {
-                      int columns;
-                      if (c.maxWidth >= 950) {
-                        columns = 4;
-                      } else if (c.maxWidth >= 620) {
-                        columns = 3;
-                      } else if (c.maxWidth >= 400) {
-                        columns = 2;
-                      } else {
-                        columns = 1;
-                      }
-                      return GridView.builder(
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: columns,
-                          crossAxisSpacing: AppTheme.paddingMedium,
-                          mainAxisSpacing: AppTheme.paddingMedium,
-                          mainAxisExtent: 378,
-                        ),
-                        itemCount: products.length,
-                        itemBuilder: (_, i) => ProductCard(
-                          product: products[i],
-                          onOpenDetail: onOpenDetail,
-                          onFlyToCart: onFlyToCart,
-                          onFlyToFavorites: onFlyToFavorites,
-                        ),
-                      );
-                    },
-                  ),
           ),
         ],
       ),

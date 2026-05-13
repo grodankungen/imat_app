@@ -33,7 +33,7 @@ const List<CategoryGroup> categoryGroups = [
     ProductCategory.CABBAGE,
     ProductCategory.ROOT_VEGETABLE,
     ProductCategory.POD,
-    ProductCategory.HERB
+    ProductCategory.HERB,
   ]),
   CategoryGroup('Mejeri & Ägg', Icons.local_drink_outlined, [
     ProductCategory.DAIRIES,
@@ -50,7 +50,7 @@ const List<CategoryGroup> categoryGroups = [
     ProductCategory.COLD_DRINKS,
   ]),
   CategoryGroup('Nötter och frön', Icons.circle_outlined, [
-    ProductCategory.NUTS_AND_SEEDS
+    ProductCategory.NUTS_AND_SEEDS,
   ]),
   CategoryGroup('Skafferi', Icons.kitchen_outlined, [
     ProductCategory.PASTA,
