@@ -3,8 +3,8 @@ import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/model/ui_state.dart';
 import 'package:imat_app/model/account_data.dart';
+import 'package:imat_app/pages/account_page.dart';
 import 'package:imat_app/pages/login_page.dart';
-import 'package:imat_app/widgets/account_modal.dart';
 import 'package:imat_app/widgets/order_history_modal.dart';
 import 'package:provider/provider.dart';
 
@@ -26,11 +26,12 @@ class HeaderBar extends StatelessWidget {
 
     final isLoggedIn = AccountData.isLoggedIn(iMat);
     final favoritesCount = iMat.favorites.length;
-    final cartCount = iMat
-        .getShoppingCart()
-        .items
-        .fold<double>(0, (sum, i) => sum + i.amount)
-        .toInt();
+    final cartCount =
+        iMat
+            .getShoppingCart()
+            .items
+            .fold<double>(0, (sum, i) => sum + i.amount)
+            .toInt();
 
     return Container(
       decoration: const BoxDecoration(
@@ -47,19 +48,20 @@ class HeaderBar extends StatelessWidget {
           Image.asset(
             'assets/imat_logo.png',
             height: 64,
-            errorBuilder: (_, __, ___) => const SizedBox(
-              height: 64,
-              child: Center(
-                child: Text(
-                  'iMat',
-                  style: TextStyle(
-                    fontSize: AppTheme.fontSize5xl,
-                    fontWeight: FontWeight.w600,
-                    color: AppTheme.primary,
+            errorBuilder:
+                (_, __, ___) => const SizedBox(
+                  height: 64,
+                  child: Center(
+                    child: Text(
+                      'iMat',
+                      style: TextStyle(
+                        fontSize: AppTheme.fontSize5xl,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.primary,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
           ),
           const SizedBox(width: AppTheme.paddingLarge),
           // Search bar
@@ -77,9 +79,10 @@ class HeaderBar extends StatelessWidget {
             _AccountMenu(email: iMat.getCustomer().email)
           else
             _LoginButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const LoginPage()),
-              ),
+              onPressed:
+                  () => Navigator.of(
+                    context,
+                  ).push(MaterialPageRoute(builder: (_) => const LoginPage())),
             ),
           const SizedBox(width: AppTheme.paddingMediumSmall),
           // Favorites toggle
@@ -113,7 +116,10 @@ class _SearchField extends StatelessWidget {
       style: const TextStyle(fontSize: AppTheme.fontSizeLg),
       decoration: InputDecoration(
         hintText: 'Sök varor...',
-        hintStyle: const TextStyle(color: AppTheme.hint, fontSize: AppTheme.fontSizeLg),
+        hintStyle: const TextStyle(
+          color: AppTheme.hint,
+          fontSize: AppTheme.fontSizeLg,
+        ),
         prefixIcon: const Icon(Icons.search, color: AppTheme.hint, size: 20),
         prefixIconConstraints: const BoxConstraints(
           minWidth: 48,
@@ -201,9 +207,8 @@ class _FavoritesButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-            border: active
-                ? null
-                : Border.all(color: AppTheme.border, width: 2),
+            border:
+                active ? null : Border.all(color: AppTheme.border, width: 2),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -262,40 +267,46 @@ class _AccountMenuState extends State<_AccountMenu> {
     final size = box.size;
 
     _entry = OverlayEntry(
-      builder: (_) => Stack(
-        children: [
-          Positioned.fill(
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: _close,
-            ),
+      builder:
+          (_) => Stack(
+            children: [
+              Positioned.fill(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: _close,
+                ),
+              ),
+              CompositedTransformFollower(
+                link: _link,
+                showWhenUnlinked: false,
+                offset: Offset(size.width - 280, size.height + 8),
+                child: _AccountMenuPopup(
+                  email:
+                      widget.email.isEmpty
+                          ? 'anna.andersson@email.se'
+                          : widget.email,
+                  onItem: (id) {
+                    _close();
+                    switch (id) {
+                      case 'account':
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const AccountPage(),
+                          ),
+                        );
+                        break;
+                      case 'history':
+                        showOrderHistoryModal(context);
+                        break;
+                      case 'logout':
+                        _logout();
+                        break;
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
-          CompositedTransformFollower(
-            link: _link,
-            showWhenUnlinked: false,
-            offset: Offset(size.width - 280, size.height + 8),
-            child: _AccountMenuPopup(
-              email: widget.email.isEmpty
-                  ? 'anna.andersson@email.se'
-                  : widget.email,
-              onItem: (id) {
-                _close();
-                switch (id) {
-                  case 'account':
-                    showAccountModal(context);
-                    break;
-                  case 'history':
-                    showOrderHistoryModal(context);
-                    break;
-                  case 'logout':
-                    _logout();
-                    break;
-                }
-              },
-            ),
-          ),
-        ],
-      ),
     );
     overlay.insert(_entry!);
     setState(() {});
@@ -309,9 +320,9 @@ class _AccountMenuState extends State<_AccountMenu> {
 
   void _logout() {
     AccountData.setLoggedIn(context.read<ImatDataHandler>(), false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Utloggad')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Utloggad')));
   }
 
   @override
@@ -333,10 +344,7 @@ class _AccountMenuState extends State<_AccountMenu> {
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           onTap: _toggle,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 8,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -356,9 +364,7 @@ class _AccountMenuState extends State<_AccountMenu> {
                 ),
                 const SizedBox(width: 4),
                 Icon(
-                  _open
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
+                  _open ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                   size: 20,
                   color: AppTheme.black,
                 ),
@@ -503,11 +509,7 @@ class _CartButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.shopping_cart,
-                size: 22,
-                color: Colors.white,
-              ),
+              const Icon(Icons.shopping_cart, size: 22, color: Colors.white),
               const SizedBox(width: AppTheme.paddingSmall),
               Text(
                 'Kundvagn ($count)',

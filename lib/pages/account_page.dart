@@ -6,17 +6,8 @@ import 'package:imat_app/widgets/address_form_modal.dart';
 import 'package:imat_app/widgets/card_form_modal.dart';
 import 'package:provider/provider.dart';
 
-//TODO: remove this file inshallah
-Future<void> showAccountModal(BuildContext context) {
-  return showDialog(
-    context: context,
-    barrierColor: Colors.black54,
-    builder: (_) => const _AccountModal(),
-  );
-}
-
-class _AccountModal extends StatelessWidget {
-  const _AccountModal();
+class AccountPage extends StatelessWidget {
+  const AccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,194 +17,229 @@ class _AccountModal extends StatelessWidget {
             ? 'anna.andersson@email.se'
             : iMat.getCustomer().email;
 
+    return Scaffold(
+      backgroundColor: AppTheme.surface,
+      body: Column(
+        children: [
+          // ── Own header ──────────────────────────────────────────────────
+          Container(
+            height: AppTheme.headerHeight,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppTheme.paddingLarge,
+            ),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              border: Border(bottom: BorderSide(color: AppTheme.border)),
+            ),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.pop(context),
+                  tooltip: 'Tillbaka',
+                ),
+                const SizedBox(width: AppTheme.paddingSmall),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Kontouppgifter',
+                        style: TextStyle(
+                          fontSize: AppTheme.fontSize5xl,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        email,
+                        style: const TextStyle(
+                          fontSize: AppTheme.fontSizeSm,
+                          color: AppTheme.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // ── Two-column body ─────────────────────────────────────────────
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: _AddressPanel(iMat: iMat)),
+                const VerticalDivider(width: 1, color: AppTheme.border),
+                Expanded(child: _CardsPanel(iMat: iMat)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Navigation helper ────────────────────────────────────────────────────────
+
+Future<void> showAccountView(BuildContext context) {
+  return Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) => const AccountPage()),
+  );
+}
+
+// ── Address panel ────────────────────────────────────────────────────────────
+
+class _AddressPanel extends StatelessWidget {
+  final ImatDataHandler iMat;
+  const _AddressPanel({required this.iMat});
+
+  @override
+  Widget build(BuildContext context) {
     final addresses = AccountData.addresses(iMat);
     final defAddr = AccountData.defaultAddressIndex(iMat);
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(AppTheme.paddingLarge),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const _SectionHeader(
+            icon: Icons.location_on_outlined,
+            title: 'Leveransadresser',
+          ),
+          const SizedBox(height: AppTheme.paddingMediumSmall),
+          if (addresses.isEmpty)
+            const _EmptyHint(text: 'Du har inga sparade adresser ännu.'),
+          for (int i = 0; i < addresses.length; i++) ...[
+            _AddressTile(
+              address: addresses[i],
+              isDefault: i == defAddr,
+              onTap: () => AccountData.setDefaultAddress(iMat, i),
+              onEdit: () async {
+                final updated = await showAddressFormModal(
+                  context,
+                  existing: addresses[i],
+                );
+                if (updated != null) {
+                  AccountData.updateAddress(iMat, i, updated);
+                }
+              },
+              onDelete:
+                  () => _confirmDelete(
+                    context,
+                    'Ta bort adress?',
+                    () => AccountData.removeAddress(iMat, i),
+                  ),
+            ),
+            const SizedBox(height: AppTheme.paddingMediumSmall),
+          ],
+          _AddDashedButton(
+            icon: Icons.add,
+            label: 'Lägg till ny adress',
+            onTap: () async {
+              final addr = await showAddressFormModal(context);
+              if (addr != null) AccountData.addAddress(iMat, addr);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Cards panel ──────────────────────────────────────────────────────────────
+
+class _CardsPanel extends StatelessWidget {
+  final ImatDataHandler iMat;
+  const _CardsPanel({required this.iMat});
+
+  @override
+  Widget build(BuildContext context) {
     final cards = AccountData.cards(iMat);
     final defCard = AccountData.defaultCardIndex(iMat);
 
-    return Dialog(
-      backgroundColor: Colors.white,
-      insetPadding: const EdgeInsets.all(AppTheme.paddingHuge),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
-      ),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: 720,
-          maxHeight: MediaQuery.of(context).size.height * 0.9,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Header
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppTheme.paddingLarge,
-                AppTheme.paddingLarge,
-                AppTheme.paddingLarge,
-                AppTheme.paddingMedium,
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Kontouppgifter',
-                          style: TextStyle(
-                            fontSize: AppTheme.fontSize5xl,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          email,
-                          style: const TextStyle(
-                            fontSize: AppTheme.fontSizeSm,
-                            color: AppTheme.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(AppTheme.paddingLarge),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const _SectionHeader(icon: Icons.credit_card, title: 'Betalmetoder'),
+          const SizedBox(height: AppTheme.paddingMediumSmall),
+          if (cards.isEmpty)
+            const _EmptyHint(text: 'Du har inga sparade kort ännu.'),
+          for (int i = 0; i < cards.length; i++) ...[
+            _CardTile(
+              card: cards[i],
+              isDefault: i == defCard,
+              onTap: () => AccountData.setDefaultCard(iMat, i),
+              onEdit: () async {
+                final updated = await showCardFormModal(
+                  context,
+                  existing: cards[i],
+                );
+                if (updated != null) {
+                  AccountData.updateCard(iMat, i, updated);
+                }
+              },
+              onDelete:
+                  () => _confirmDelete(
+                    context,
+                    'Ta bort kort?',
+                    () => AccountData.removeCard(iMat, i),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.close, size: 24),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
             ),
-            const Divider(height: 1, color: AppTheme.border),
-            // Body
-            Flexible(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(AppTheme.paddingLarge),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _SectionHeader(
-                      icon: Icons.location_on_outlined,
-                      title: 'Leveransadresser',
-                    ),
-                    const SizedBox(height: AppTheme.paddingMediumSmall),
-                    if (addresses.isEmpty)
-                      _EmptyHint(text: 'Du har inga sparade adresser ännu.'),
-                    for (int i = 0; i < addresses.length; i++) ...[
-                      _AddressTile(
-                        address: addresses[i],
-                        isDefault: i == defAddr,
-                        onTap: () => AccountData.setDefaultAddress(iMat, i),
-                        onEdit: () async {
-                          final updated = await showAddressFormModal(
-                            context,
-                            existing: addresses[i],
-                          );
-                          if (updated != null) {
-                            AccountData.updateAddress(iMat, i, updated);
-                          }
-                        },
-                        onDelete:
-                            () => _confirmDelete(
-                              context,
-                              'Ta bort adress?',
-                              () => AccountData.removeAddress(iMat, i),
-                            ),
-                      ),
-                      const SizedBox(height: AppTheme.paddingMediumSmall),
-                    ],
-                    _AddDashedButton(
-                      icon: Icons.add,
-                      label: 'Lägg till ny adress',
-                      onTap: () async {
-                        final addr = await showAddressFormModal(context);
-                        if (addr != null) {
-                          AccountData.addAddress(iMat, addr);
-                        }
-                      },
-                    ),
-                    const SizedBox(height: AppTheme.paddingHuge),
-                    _SectionHeader(
-                      icon: Icons.credit_card,
-                      title: 'Betalmetoder',
-                    ),
-                    const SizedBox(height: AppTheme.paddingMediumSmall),
-                    if (cards.isEmpty)
-                      _EmptyHint(text: 'Du har inga sparade kort ännu.'),
-                    for (int i = 0; i < cards.length; i++) ...[
-                      _CardTile(
-                        card: cards[i],
-                        isDefault: i == defCard,
-                        onTap: () => AccountData.setDefaultCard(iMat, i),
-                        onEdit: () async {
-                          final updated = await showCardFormModal(
-                            context,
-                            existing: cards[i],
-                          );
-                          if (updated != null) {
-                            AccountData.updateCard(iMat, i, updated);
-                          }
-                        },
-                        onDelete:
-                            () => _confirmDelete(
-                              context,
-                              'Ta bort kort?',
-                              () => AccountData.removeCard(iMat, i),
-                            ),
-                      ),
-                      const SizedBox(height: AppTheme.paddingMediumSmall),
-                    ],
-                    _AddDashedButton(
-                      icon: Icons.add,
-                      label: 'Lägg till nytt kort',
-                      onTap: () async {
-                        final c = await showCardFormModal(context);
-                        if (c != null) {
-                          AccountData.addCard(iMat, c);
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ),
+            const SizedBox(height: AppTheme.paddingMediumSmall),
+          ],
+          _AddDashedButton(
+            icon: Icons.add,
+            label: 'Lägg till nytt kort',
+            onTap: () async {
+              final c = await showCardFormModal(context);
+              if (c != null) AccountData.addCard(iMat, c);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Delete confirmation ───────────────────────────────────────────────────────
+
+Future<void> _confirmDelete(
+  BuildContext context,
+  String title,
+  VoidCallback onConfirm,
+) async {
+  final ok = await showDialog<bool>(
+    context: context,
+    builder:
+        (ctx) => AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+          ),
+          title: Text(title),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Avbryt'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              style: TextButton.styleFrom(foregroundColor: AppTheme.favorite),
+              child: const Text('Ta bort'),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<void> _confirmDelete(
-    BuildContext context,
-    String title,
-    VoidCallback onConfirm,
-  ) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder:
-          (ctx) => AlertDialog(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-            ),
-            title: Text(title),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: const Text('Avbryt'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, true),
-                style: TextButton.styleFrom(foregroundColor: AppTheme.favorite),
-                child: const Text('Ta bort'),
-              ),
-            ],
-          ),
-    );
-    if (ok == true) onConfirm();
-  }
+  );
+  if (ok == true) onConfirm();
 }
+
+// ── Shared small widgets ──────────────────────────────────────────────────────
 
 class _SectionHeader extends StatelessWidget {
   final IconData icon;
@@ -286,6 +312,8 @@ class _StandardBadge extends StatelessWidget {
     );
   }
 }
+
+// ── Address tile ──────────────────────────────────────────────────────────────
 
 class _AddressTile extends StatelessWidget {
   final SavedAddress address;
@@ -386,6 +414,8 @@ class _AddressTile extends StatelessWidget {
   }
 }
 
+// ── Card tile ─────────────────────────────────────────────────────────────────
+
 class _CardTile extends StatelessWidget {
   final SavedCard card;
   final bool isDefault;
@@ -474,6 +504,8 @@ class _CardTile extends StatelessWidget {
   }
 }
 
+// ── Dashed add button ─────────────────────────────────────────────────────────
+
 class _AddDashedButton extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -519,7 +551,6 @@ class _AddDashedButton extends StatelessWidget {
   }
 }
 
-/// Lightweight dashed border widget (avoids extra dependency).
 class DottedBorder extends StatelessWidget {
   final Widget child;
   final Color color;
