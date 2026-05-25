@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/account_data.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import 'package:imat_app/widgets/account_widgets.dart';
 import 'package:imat_app/widgets/address_form_modal.dart';
 import 'package:imat_app/widgets/card_form_modal.dart';
 import 'package:provider/provider.dart';
 
-//TODO: remove this file inshallah
 Future<void> showAccountModal(BuildContext context) {
   return showDialog(
     context: context,
@@ -45,7 +45,7 @@ class _AccountModal extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Header
+            // ── Header ───────────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppTheme.paddingLarge,
@@ -86,22 +86,25 @@ class _AccountModal extends StatelessWidget {
               ),
             ),
             const Divider(height: 1, color: AppTheme.border),
-            // Body
+            // ── Body ─────────────────────────────────────────────────────
             Flexible(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(AppTheme.paddingLarge),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _SectionHeader(
+                    // Adresser
+                    const AccountSectionHeader(
                       icon: Icons.location_on_outlined,
                       title: 'Leveransadresser',
                     ),
                     const SizedBox(height: AppTheme.paddingMediumSmall),
                     if (addresses.isEmpty)
-                      _EmptyHint(text: 'Du har inga sparade adresser ännu.'),
+                      const AccountEmptyHint(
+                        text: 'Du har inga sparade adresser ännu.',
+                      ),
                     for (int i = 0; i < addresses.length; i++) ...[
-                      _AddressTile(
+                      AccountAddressTile(
                         address: addresses[i],
                         isDefault: i == defAddr,
                         onTap: () => AccountData.setDefaultAddress(iMat, i),
@@ -115,7 +118,7 @@ class _AccountModal extends StatelessWidget {
                           }
                         },
                         onDelete:
-                            () => _confirmDelete(
+                            () => accountConfirmDelete(
                               context,
                               'Ta bort adress?',
                               () => AccountData.removeAddress(iMat, i),
@@ -123,8 +126,7 @@ class _AccountModal extends StatelessWidget {
                       ),
                       const SizedBox(height: AppTheme.paddingMediumSmall),
                     ],
-                    _AddDashedButton(
-                      icon: Icons.add,
+                    AccountAddButton(
                       label: 'Lägg till ny adress',
                       onTap: () async {
                         final addr = await showAddressFormModal(context);
@@ -134,15 +136,18 @@ class _AccountModal extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: AppTheme.paddingHuge),
-                    _SectionHeader(
+                    // Betalmetoder
+                    const AccountSectionHeader(
                       icon: Icons.credit_card,
                       title: 'Betalmetoder',
                     ),
                     const SizedBox(height: AppTheme.paddingMediumSmall),
                     if (cards.isEmpty)
-                      _EmptyHint(text: 'Du har inga sparade kort ännu.'),
+                      const AccountEmptyHint(
+                        text: 'Du har inga sparade kort ännu.',
+                      ),
                     for (int i = 0; i < cards.length; i++) ...[
-                      _CardTile(
+                      AccountCardTile(
                         card: cards[i],
                         isDefault: i == defCard,
                         onTap: () => AccountData.setDefaultCard(iMat, i),
@@ -156,7 +161,7 @@ class _AccountModal extends StatelessWidget {
                           }
                         },
                         onDelete:
-                            () => _confirmDelete(
+                            () => accountConfirmDelete(
                               context,
                               'Ta bort kort?',
                               () => AccountData.removeCard(iMat, i),
@@ -164,8 +169,7 @@ class _AccountModal extends StatelessWidget {
                       ),
                       const SizedBox(height: AppTheme.paddingMediumSmall),
                     ],
-                    _AddDashedButton(
-                      icon: Icons.add,
+                    AccountAddButton(
                       label: 'Lägg till nytt kort',
                       onTap: () async {
                         final c = await showCardFormModal(context);
@@ -183,395 +187,4 @@ class _AccountModal extends StatelessWidget {
       ),
     );
   }
-
-  Future<void> _confirmDelete(
-    BuildContext context,
-    String title,
-    VoidCallback onConfirm,
-  ) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder:
-          (ctx) => AlertDialog(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-            ),
-            title: Text(title),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: const Text('Avbryt'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, true),
-                style: TextButton.styleFrom(foregroundColor: AppTheme.favorite),
-                child: const Text('Ta bort'),
-              ),
-            ],
-          ),
-    );
-    if (ok == true) onConfirm();
-  }
-}
-
-class _SectionHeader extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  const _SectionHeader({required this.icon, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 22, color: AppTheme.black),
-        const SizedBox(width: AppTheme.paddingSmall),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: AppTheme.fontSize3xl,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _EmptyHint extends StatelessWidget {
-  final String text;
-  const _EmptyHint({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingSmall),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: AppTheme.textSecondary,
-          fontSize: AppTheme.fontSizeXs2,
-        ),
-      ),
-    );
-  }
-}
-
-class _StandardBadge extends StatelessWidget {
-  const _StandardBadge();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: AppTheme.primarySurface,
-        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-      ),
-      child: const Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.star, size: 12, color: AppTheme.primary),
-          SizedBox(width: 4),
-          Text(
-            'Standard',
-            style: TextStyle(
-              fontSize: AppTheme.fontSizeXxs,
-              fontWeight: FontWeight.w600,
-              color: AppTheme.primary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AddressTile extends StatelessWidget {
-  final SavedAddress address;
-  final bool isDefault;
-  final VoidCallback onTap;
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
-
-  const _AddressTile({
-    required this.address,
-    required this.isDefault,
-    required this.onTap,
-    required this.onEdit,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: AppTheme.surface,
-      borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        onTap: onTap,
-        onLongPress: onEdit,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppTheme.paddingMedium,
-            vertical: AppTheme.paddingMedium,
-          ),
-          decoration: BoxDecoration(
-            border: Border.all(color: AppTheme.border),
-            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          address.label,
-                          style: const TextStyle(
-                            fontSize: AppTheme.fontSizeMd,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        if (isDefault) ...[
-                          const SizedBox(width: AppTheme.paddingSmall),
-                          const _StandardBadge(),
-                        ],
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      address.street,
-                      style: const TextStyle(
-                        fontSize: AppTheme.fontSizeSm,
-                        color: AppTheme.textPrimary,
-                      ),
-                    ),
-                    Text(
-                      '${address.postCode} ${address.city}'.trim(),
-                      style: const TextStyle(
-                        fontSize: AppTheme.fontSizeSm,
-                        color: AppTheme.textPrimary,
-                      ),
-                    ),
-                    if (address.phone.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Text(
-                          address.phone,
-                          style: const TextStyle(
-                            fontSize: AppTheme.fontSizeXs2,
-                            color: AppTheme.textSecondary,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.delete_outline,
-                  color: AppTheme.favorite,
-                ),
-                onPressed: onDelete,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CardTile extends StatelessWidget {
-  final SavedCard card;
-  final bool isDefault;
-  final VoidCallback onTap;
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
-
-  const _CardTile({
-    required this.card,
-    required this.isDefault,
-    required this.onTap,
-    required this.onEdit,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: AppTheme.surface,
-      borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        onTap: onTap,
-        onLongPress: onEdit,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppTheme.paddingMedium,
-            vertical: AppTheme.paddingMedium,
-          ),
-          decoration: BoxDecoration(
-            border: Border.all(color: AppTheme.border),
-            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.credit_card,
-                size: 22,
-                color: AppTheme.textPrimary,
-              ),
-              const SizedBox(width: AppTheme.paddingMedium),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          '•••• ${card.last4}',
-                          style: const TextStyle(
-                            fontSize: AppTheme.fontSizeMd,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                        if (isDefault) ...[
-                          const SizedBox(width: AppTheme.paddingSmall),
-                          const _StandardBadge(),
-                        ],
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${card.holder.toUpperCase()}  •  ${card.expiry}',
-                      style: const TextStyle(
-                        fontSize: AppTheme.fontSizeXs,
-                        color: AppTheme.textSecondary,
-                        letterSpacing: 0.4,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.delete_outline,
-                  color: AppTheme.favorite,
-                ),
-                onPressed: onDelete,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AddDashedButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-  const _AddDashedButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        onTap: onTap,
-        child: DottedBorder(
-          color: AppTheme.border,
-          radius: AppTheme.radiusLg,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon, color: AppTheme.textPrimary),
-                const SizedBox(width: AppTheme.paddingSmall),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: AppTheme.fontSizeBase,
-                    fontWeight: FontWeight.w500,
-                    color: AppTheme.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Lightweight dashed border widget (avoids extra dependency).
-class DottedBorder extends StatelessWidget {
-  final Widget child;
-  final Color color;
-  final double radius;
-  const DottedBorder({
-    super.key,
-    required this.child,
-    required this.color,
-    required this.radius,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _DottedRectPainter(color: color, radius: radius),
-      child: child,
-    );
-  }
-}
-
-class _DottedRectPainter extends CustomPainter {
-  final Color color;
-  final double radius;
-  _DottedRectPainter({required this.color, required this.radius});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint =
-        Paint()
-          ..color = color
-          ..strokeWidth = 1.5
-          ..style = PaintingStyle.stroke;
-
-    final rrect = RRect.fromRectAndRadius(
-      Offset.zero & size,
-      Radius.circular(radius),
-    );
-    final path = Path()..addRRect(rrect);
-
-    const dashLen = 6.0;
-    const gapLen = 4.0;
-    for (final metric in path.computeMetrics()) {
-      double dist = 0;
-      while (dist < metric.length) {
-        final next = (dist + dashLen).clamp(0, metric.length).toDouble();
-        canvas.drawPath(metric.extractPath(dist, next), paint);
-        dist = next + gapLen;
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _DottedRectPainter old) =>
-      old.color != color || old.radius != radius;
 }

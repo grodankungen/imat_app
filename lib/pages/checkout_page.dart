@@ -786,6 +786,10 @@ class _DeliveryStep extends StatelessWidget {
   }
 }
 
+// Widget som ritar EN leveransrad (titel, undertext och pris).
+// Här sätter vi egna, lite större textstorlekar direkt istället för
+// temats konstanter — så att ändringen bara gäller leveransraderna
+// och inte resten av appen.
 class _DeliveryRow extends StatelessWidget {
   final _DeliveryOption opt;
   const _DeliveryRow({required this.opt});
@@ -796,7 +800,8 @@ class _DeliveryRow extends StatelessWidget {
         opt.price == 0 ? 'Gratis' : '${opt.price.toStringAsFixed(0)} kr';
     return Row(
       children: [
-        Icon(opt.icon, size: 22, color: AppTheme.textPrimary),
+        // Ikonen görs också lite större så den matchar den större texten
+        Icon(opt.icon, size: 26, color: AppTheme.textPrimary),
         const SizedBox(width: AppTheme.paddingMedium),
         Expanded(
           child: Column(
@@ -805,7 +810,7 @@ class _DeliveryRow extends StatelessWidget {
               Text(
                 opt.title,
                 style: const TextStyle(
-                  fontSize: AppTheme.fontSizeBase,
+                  fontSize: 20, // Titel, t.ex. "Hemleverans" (var fontSizeBase)
                   fontWeight: FontWeight.w600,
                   color: AppTheme.black,
                 ),
@@ -814,7 +819,7 @@ class _DeliveryRow extends StatelessWidget {
               Text(
                 opt.subtitle,
                 style: const TextStyle(
-                  fontSize: AppTheme.fontSizeXs2,
+                  fontSize: 15, // Undertext (var fontSizeXs2)
                   color: AppTheme.textSecondary,
                 ),
               ),
@@ -824,7 +829,7 @@ class _DeliveryRow extends StatelessWidget {
         Text(
           priceText,
           style: const TextStyle(
-            fontSize: AppTheme.fontSizeSm,
+            fontSize: 20, // Pris, t.ex. "49 kr" (var fontSizeSm)
             fontWeight: FontWeight.w600,
             color: AppTheme.primary,
           ),
@@ -1082,6 +1087,9 @@ class _PaymentStep extends StatelessWidget {
   }
 }
 
+// Widget som ritar EN betalmetodsrad (titel + undertext).
+// Samma som leveransraderna: vi sätter egna, större textstorlekar
+// direkt här så att bara betalraderna påverkas.
 class _PaymentRow extends StatelessWidget {
   final _PaymentOption opt;
   const _PaymentRow({required this.opt});
@@ -1090,7 +1098,8 @@ class _PaymentRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(opt.icon, size: 22, color: AppTheme.textPrimary),
+        // Ikonen görs lite större så den matchar den större texten
+        Icon(opt.icon, size: 26, color: AppTheme.textPrimary),
         const SizedBox(width: AppTheme.paddingMedium),
         Expanded(
           child: Column(
@@ -1099,7 +1108,7 @@ class _PaymentRow extends StatelessWidget {
               Text(
                 opt.title,
                 style: const TextStyle(
-                  fontSize: AppTheme.fontSizeBase,
+                  fontSize: 20, // Titel, t.ex. "Bankkort" (var fontSizeBase)
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -1107,7 +1116,7 @@ class _PaymentRow extends StatelessWidget {
               Text(
                 opt.subtitle,
                 style: const TextStyle(
-                  fontSize: AppTheme.fontSizeXs2,
+                  fontSize: 15, // Undertext (var fontSizeXs2)
                   color: AppTheme.textSecondary,
                 ),
               ),

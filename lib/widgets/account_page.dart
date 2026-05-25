@@ -8,7 +8,7 @@ import 'package:imat_app/widgets/address_form_modal.dart';
 import 'package:imat_app/widgets/card_form_modal.dart';
 import 'package:provider/provider.dart';
 
-// ── Navigation helper ────────────────────────────────────────────────────────
+// ── Navigation-helper ─────────────────────────────────────────────────────────
 
 Future<void> showAccountView(BuildContext context) {
   return Navigator.push(
@@ -17,7 +17,7 @@ Future<void> showAccountView(BuildContext context) {
   );
 }
 
-// ── Page ─────────────────────────────────────────────────────────────────────
+// ── Sida ──────────────────────────────────────────────────────────────────────
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -85,7 +85,7 @@ class AccountPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // Email info row
+                        // E-postrad
                         Padding(
                           padding: const EdgeInsets.only(
                             left: 4,
@@ -109,10 +109,10 @@ class AccountPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        // Addresses card
+                        // Adresskort med inline-formulär
                         _AddressCard(iMat: iMat),
                         const SizedBox(height: AppTheme.paddingLarge),
-                        // Payment cards card
+                        // Betalkortkort med inline-formulär
                         _PaymentCard(iMat: iMat),
                       ],
                     ),
@@ -127,7 +127,7 @@ class AccountPage extends StatelessWidget {
   }
 }
 
-// ── _Card container (same as checkout) ───────────────────────────────────────
+// ── Kortbehållare ─────────────────────────────────────────────────────────────
 
 class _Card extends StatelessWidget {
   final Widget child;
@@ -154,96 +154,7 @@ class _Card extends StatelessWidget {
   }
 }
 
-// ── Section header (icon + title) ─────────────────────────────────────────────
-
-class _SectionHeader extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  const _SectionHeader({required this.icon, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 22, color: AppTheme.black),
-        const SizedBox(width: AppTheme.paddingSmall),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: AppTheme.fontSizeXl,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ── Standard badge ────────────────────────────────────────────────────────────
-
-class _StandardBadge extends StatelessWidget {
-  const _StandardBadge();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(
-        color: AppTheme.primarySurface,
-        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-      ),
-      child: const Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.star, size: 11, color: AppTheme.primary),
-          SizedBox(width: 3),
-          Text(
-            'Standard',
-            style: TextStyle(
-              fontSize: AppTheme.fontSizeXxs,
-              fontWeight: FontWeight.w600,
-              color: AppTheme.primary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ── Delete confirmation ───────────────────────────────────────────────────────
-
-Future<void> _confirmDelete(
-  BuildContext context,
-  String title,
-  VoidCallback onConfirm,
-) async {
-  final ok = await showDialog<bool>(
-    context: context,
-    builder:
-        (ctx) => AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-          ),
-          title: Text(title),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Avbryt'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, true),
-              style: TextButton.styleFrom(foregroundColor: AppTheme.favorite),
-              child: const Text('Ta bort'),
-            ),
-          ],
-        ),
-  );
-  if (ok == true) onConfirm();
-}
-
-// ── Address card with inline add form ─────────────────────────────────────────
+// ── Adresskort med inline-lägg-till-formulär ──────────────────────────────────
 
 class _AddressCard extends StatefulWidget {
   final ImatDataHandler iMat;
@@ -267,24 +178,13 @@ class _AddressCardState extends State<_AddressCard> {
         children: [
           const Padding(
             padding: EdgeInsets.only(bottom: AppTheme.paddingMedium),
-            child: _SectionHeader(
+            child: AccountSectionHeader(
               icon: Icons.location_on_outlined,
               title: 'Leveransadresser',
             ),
           ),
           if (addresses.isEmpty && !_adding)
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: AppTheme.paddingMediumSmall,
-              ),
-              child: Text(
-                'Du har inga sparade adresser ännu.',
-                style: const TextStyle(
-                  color: AppTheme.textSecondary,
-                  fontSize: AppTheme.fontSizeXs2,
-                ),
-              ),
-            ),
+            const AccountEmptyHint(text: 'Du har inga sparade adresser ännu.'),
           for (int i = 0; i < addresses.length; i++) ...[
             AccountAddressTile(
               address: addresses[i],
@@ -300,7 +200,7 @@ class _AddressCardState extends State<_AddressCard> {
                 }
               },
               onDelete:
-                  () => _confirmDelete(
+                  () => accountConfirmDelete(
                     context,
                     'Ta bort adress?',
                     () => AccountData.removeAddress(widget.iMat, i),
@@ -308,7 +208,7 @@ class _AddressCardState extends State<_AddressCard> {
             ),
             const SizedBox(height: AppTheme.paddingMediumSmall),
           ],
-          // Inline add form
+          // Inline-formulär för ny adress (animerat)
           AnimatedSize(
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeOutCubic,
@@ -325,7 +225,7 @@ class _AddressCardState extends State<_AddressCard> {
           ),
           if (!_adding) ...[
             const SizedBox(height: AppTheme.paddingSmall),
-            _AddButton(
+            AccountAddButton(
               label: 'Lägg till ny adress',
               onTap: () => setState(() => _adding = true),
             ),
@@ -336,7 +236,7 @@ class _AddressCardState extends State<_AddressCard> {
   }
 }
 
-// ── Payment card with inline add form ─────────────────────────────────────────
+// ── Betalkortkort med inline-lägg-till-formulär ───────────────────────────────
 
 class _PaymentCard extends StatefulWidget {
   final ImatDataHandler iMat;
@@ -360,24 +260,13 @@ class _PaymentCardState extends State<_PaymentCard> {
         children: [
           const Padding(
             padding: EdgeInsets.only(bottom: AppTheme.paddingMedium),
-            child: _SectionHeader(
+            child: AccountSectionHeader(
               icon: Icons.credit_card,
               title: 'Betalmetoder',
             ),
           ),
           if (cards.isEmpty && !_adding)
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: AppTheme.paddingMediumSmall,
-              ),
-              child: Text(
-                'Du har inga sparade kort ännu.',
-                style: const TextStyle(
-                  color: AppTheme.textSecondary,
-                  fontSize: AppTheme.fontSizeXs2,
-                ),
-              ),
-            ),
+            const AccountEmptyHint(text: 'Du har inga sparade kort ännu.'),
           for (int i = 0; i < cards.length; i++) ...[
             AccountCardTile(
               card: cards[i],
@@ -393,7 +282,7 @@ class _PaymentCardState extends State<_PaymentCard> {
                 }
               },
               onDelete:
-                  () => _confirmDelete(
+                  () => accountConfirmDelete(
                     context,
                     'Ta bort kort?',
                     () => AccountData.removeCard(widget.iMat, i),
@@ -401,7 +290,7 @@ class _PaymentCardState extends State<_PaymentCard> {
             ),
             const SizedBox(height: AppTheme.paddingMediumSmall),
           ],
-          // Inline add form
+          // Inline-formulär för nytt kort (animerat)
           AnimatedSize(
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeOutCubic,
@@ -418,7 +307,7 @@ class _PaymentCardState extends State<_PaymentCard> {
           ),
           if (!_adding) ...[
             const SizedBox(height: AppTheme.paddingSmall),
-            _AddButton(
+            AccountAddButton(
               label: 'Lägg till nytt kort',
               onTap: () => setState(() => _adding = true),
             ),
@@ -429,49 +318,7 @@ class _PaymentCardState extends State<_PaymentCard> {
   }
 }
 
-// ── Add button (dashed, matching original style) ──────────────────────────────
-
-class _AddButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-  const _AddButton({required this.label, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        onTap: onTap,
-        child: _DottedBorder(
-          color: AppTheme.border,
-          radius: AppTheme.radiusLg,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.add, color: AppTheme.textPrimary, size: 20),
-                const SizedBox(width: AppTheme.paddingSmall),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: AppTheme.fontSizeBase,
-                    fontWeight: FontWeight.w500,
-                    color: AppTheme.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Inline address form ───────────────────────────────────────────────────────
+// ── Inline-adressformulär ─────────────────────────────────────────────────────
 
 class _InlineAddressForm extends StatefulWidget {
   final ValueChanged<SavedAddress> onSave;
@@ -526,9 +373,9 @@ class _InlineAddressFormState extends State<_InlineAddressForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            const Text(
               'Ny adress',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppTheme.fontSizeBase,
                 fontWeight: FontWeight.w600,
               ),
@@ -566,44 +413,7 @@ class _InlineAddressFormState extends State<_InlineAddressForm> {
             ),
             _InlineField(label: 'Telefon (valfritt)', controller: _phone),
             const SizedBox(height: AppTheme.paddingSmall),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: widget.onCancel,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppTheme.textSecondary,
-                      side: const BorderSide(color: AppTheme.border),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-                      ),
-                    ),
-                    child: const Text('Avbryt'),
-                  ),
-                ),
-                const SizedBox(width: AppTheme.paddingMediumSmall),
-                Expanded(
-                  flex: 2,
-                  child: ElevatedButton(
-                    onPressed: _save,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primary,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-                      ),
-                    ),
-                    child: const Text(
-                      'Lägg till',
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            _InlineFormButtons(onCancel: widget.onCancel, onSave: _save),
           ],
         ),
       ),
@@ -611,7 +421,7 @@ class _InlineAddressFormState extends State<_InlineAddressForm> {
   }
 }
 
-// ── Inline card form ──────────────────────────────────────────────────────────
+// ── Inline-kortformulär ───────────────────────────────────────────────────────
 
 class _InlineCardForm extends StatefulWidget {
   final ValueChanged<SavedCard> onSave;
@@ -712,9 +522,7 @@ class _InlineCardFormState extends State<_InlineCardForm> {
                       decoration: InputDecoration(
                         labelText: 'Månad',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            AppTheme.radiusLg,
-                          ),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 12,
@@ -745,9 +553,7 @@ class _InlineCardFormState extends State<_InlineCardForm> {
                       decoration: InputDecoration(
                         labelText: 'År',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            AppTheme.radiusLg,
-                          ),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 12,
@@ -770,44 +576,7 @@ class _InlineCardFormState extends State<_InlineCardForm> {
               ],
             ),
             const SizedBox(height: AppTheme.paddingSmall),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: widget.onCancel,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppTheme.textSecondary,
-                      side: const BorderSide(color: AppTheme.border),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-                      ),
-                    ),
-                    child: const Text('Avbryt'),
-                  ),
-                ),
-                const SizedBox(width: AppTheme.paddingMediumSmall),
-                Expanded(
-                  flex: 2,
-                  child: ElevatedButton(
-                    onPressed: _save,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primary,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-                      ),
-                    ),
-                    child: const Text(
-                      'Lägg till',
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            _InlineFormButtons(onCancel: widget.onCancel, onSave: _save),
           ],
         ),
       ),
@@ -815,7 +584,57 @@ class _InlineCardFormState extends State<_InlineCardForm> {
   }
 }
 
-// ── Shared inline form field ───────────────────────────────────────────────────
+// ── Delade knappar för inline-formulär (Avbryt / Lägg till) ──────────────────
+
+class _InlineFormButtons extends StatelessWidget {
+  final VoidCallback onCancel;
+  final VoidCallback onSave;
+  const _InlineFormButtons({required this.onCancel, required this.onSave});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: OutlinedButton(
+            onPressed: onCancel,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: AppTheme.textSecondary,
+              side: const BorderSide(color: AppTheme.border),
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+              ),
+            ),
+            child: const Text('Avbryt'),
+          ),
+        ),
+        const SizedBox(width: AppTheme.paddingMediumSmall),
+        Expanded(
+          flex: 2,
+          child: ElevatedButton(
+            onPressed: onSave,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primary,
+              foregroundColor: Colors.white,
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+              ),
+            ),
+            child: const Text(
+              'Lägg till',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ── Delat inline-formulärfält ─────────────────────────────────────────────────
 
 class _InlineField extends StatelessWidget {
   final String label;
@@ -863,60 +682,4 @@ class _InlineField extends StatelessWidget {
       ),
     );
   }
-}
-
-// ── Dotted border painter ─────────────────────────────────────────────────────
-
-class _DottedBorder extends StatelessWidget {
-  final Widget child;
-  final Color color;
-  final double radius;
-  const _DottedBorder({
-    required this.child,
-    required this.color,
-    required this.radius,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _DottedRectPainter(color: color, radius: radius),
-      child: child,
-    );
-  }
-}
-
-class _DottedRectPainter extends CustomPainter {
-  final Color color;
-  final double radius;
-  _DottedRectPainter({required this.color, required this.radius});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint =
-        Paint()
-          ..color = color
-          ..strokeWidth = 1.5
-          ..style = PaintingStyle.stroke;
-
-    final path =
-        Path()..addRRect(
-          RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(radius)),
-        );
-
-    const dashLen = 6.0;
-    const gapLen = 4.0;
-    for (final metric in path.computeMetrics()) {
-      double dist = 0;
-      while (dist < metric.length) {
-        final next = (dist + dashLen).clamp(0, metric.length).toDouble();
-        canvas.drawPath(metric.extractPath(dist, next), paint);
-        dist = next + gapLen;
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _DottedRectPainter old) =>
-      old.color != color || old.radius != radius;
 }
