@@ -78,16 +78,35 @@ class SavedCard {
 class OrderMeta {
   final String delivery;
   final String payment;
-  const OrderMeta({required this.delivery, required this.payment});
+  // Valt leveransdatum och leveranstid (endast relevant för schemalagd
+  // leverans). Sparas som strängar så de enkelt kan serialiseras till JSON.
+  // Null betyder "ej valt" / ej tillämpligt för leveranssättet.
+  final String? scheduledDate;
+  final String? scheduledTime;
+  const OrderMeta({
+    required this.delivery,
+    required this.payment,
+    this.scheduledDate,
+    this.scheduledTime,
+  });
 
   Map<String, dynamic> toJson() => {
         'delivery': delivery,
         'payment': payment,
+        'scheduledDate': scheduledDate,
+        'scheduledTime': scheduledTime,
       };
 
   factory OrderMeta.fromJson(Map json) => OrderMeta(
         delivery: json['delivery']?.toString() ?? 'home',
         payment: json['payment']?.toString() ?? 'card',
+        // Använd null om fältet saknas (äldre ordrar) eller är tomt.
+        scheduledDate: (json['scheduledDate'] as String?)?.isNotEmpty == true
+            ? json['scheduledDate'] as String
+            : null,
+        scheduledTime: (json['scheduledTime'] as String?)?.isNotEmpty == true
+            ? json['scheduledTime'] as String
+            : null,
       );
 }
 
@@ -240,7 +259,10 @@ class AccountData {
 }
 
 const deliveryLabels = {
+  // 'home' behålls för ordrar som lades innan alternativet ersattes,
+  // så att deras historik fortfarande visar rätt namn.
   'home': 'Hemleverans',
+  'scheduled': 'Schemalagd leverans',
   'pickup': 'Hämta i butik',
   'express': 'Expressleverans',
 };

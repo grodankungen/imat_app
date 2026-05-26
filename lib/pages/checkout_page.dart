@@ -7,6 +7,43 @@ import 'package:imat_app/model/ui_state.dart';
 import 'package:imat_app/widgets/account_modal.dart';
 import 'package:provider/provider.dart';
 
+// ---------- Leveranstidsfönster (för hemleverans) ----------
+
+// Ett valbart tidsfönster för hemleverans. 'id' sparas på ordern,
+// 'label' visas i listan och 'range' är klockslagen.
+class _DeliveryWindow {
+  final String id;
+  final String label;
+  final String range;
+  const _DeliveryWindow(this.id, this.label, this.range);
+
+  // Hur fönstret visas på en rad, t.ex. "Förmiddag (8:00–12:00)".
+  String get display => '$label ($range)';
+}
+
+const _deliveryWindows = [
+  _DeliveryWindow('morning', 'Förmiddag', '8:00–12:00'),
+  _DeliveryWindow('afternoon', 'Eftermiddag', '12:00–16:00'),
+  _DeliveryWindow('evening', 'Kväll', '16:00–22:00'),
+];
+
+// Formaterar ett datum till "ÅÅÅÅ-MM-DD". Null om inget datum valt.
+String? _formatDate(DateTime? d) {
+  if (d == null) return null;
+  final m = d.month.toString().padLeft(2, '0');
+  final day = d.day.toString().padLeft(2, '0');
+  return '${d.year}-$m-$day';
+}
+
+// Slår upp ett tidsfönster på dess id (för visning i granska/bekräftelse).
+_DeliveryWindow? _windowById(String? id) {
+  if (id == null) return null;
+  for (final w in _deliveryWindows) {
+    if (w.id == id) return w;
+  }
+  return null;
+}
+
 // ---------- Models for delivery / payment selection ----------
 
 class _DeliveryOption {
@@ -91,6 +128,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
   int _step = 0;
 
   String _deliveryId = 'home';
+  // Hemleverans kräver datum + tidsfönster. Inget förvalt.
+  DateTime? _selectedDate;
+  String? _windowId;
+  // Sätts till true när användaren försökt fortsätta utan att ha valt
+  // allt som krävs – då (och först då) visas felmeddelandet.
+  bool _showDeliveryError = false;
   int _addressIndex = -1;
   String _paymentId = 'card';
   int _cardIndex = -1;
@@ -138,10 +181,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
     newOrder ??= orders.isNotEmpty ? orders.first : null;
 
     if (newOrder != null) {
+      // Skicka bara med datum/tid om det är hemleverans (enda sättet som
+      // har schemaläggning). scheduledTime sparas som fönstrets visningstext.
+      final isHome = _deliveryId == 'home';
+      final window = _windowById(_windowId);
       AccountData.setOrderMeta(
         iMat,
         newOrder.orderNumber,
-        OrderMeta(delivery: _deliveryId, payment: _paymentId),
+        OrderMeta(
+          delivery: _deliveryId,
+          payment: _paymentId,
+          scheduledDate: isHome ? _formatDate(_selectedDate) : null,
+          scheduledTime: isHome ? window?.display : null,
+        ),
       );
     }
 
@@ -186,10 +238,30 @@ class _CheckoutPageState extends State<CheckoutPage> {
       case 0:
         return _DeliveryStep(
           deliveryId: _deliveryId,
-          onDelivery: (id) => setState(() => _deliveryId = id),
+          onDelivery: (id) => setState(() {
+            _deliveryId = id;
+            // Byter man bort från hemleverans försvinner felet.
+            if (id != 'home') _showDeliveryError = false;
+          }),
           addressIndex: _addressIndex,
           onAddress: (i) => setState(() => _addressIndex = i),
-          onContinue: () => _go(1),
+          selectedDate: _selectedDate,
+          windowId: _windowId,
+          showDeliveryError: _showDeliveryError,
+          onDate: (d) => setState(() {
+            _selectedDate = d;
+            // När båda fälten är ifyllda tar vi bort ev. felmeddelande.
+            if (_selectedDate != null && _windowId != null) {
+              _showDeliveryError = false;
+            }
+          }),
+          onWindow: (id) => setState(() {
+            _windowId = id;
+            if (_selectedDate != null && _windowId != null) {
+              _showDeliveryError = false;
+            }
+          }),
+          onContinue: _tryContinueFromDelivery,
         );
       case 1:
         return _PaymentStep(
@@ -206,6 +278,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
           addressIndex: _addressIndex,
           paymentId: _paymentId,
           cardIndex: _cardIndex,
+          selectedDate: _selectedDate,
+          windowId: _windowId,
           onConfirm: _placeOrder,
         );
       case 3:
@@ -213,8 +287,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
         return _DoneStep(
           order: _placedOrder,
           deliveryCost: _placedDeliveryCost,
+          deliveryId: _deliveryId,
+          selectedDate: _selectedDate,
+          windowId: _windowId,
         );
     }
+  }
+
+  // Anropas när man trycker "Fortsätt" i leveranssteget. Kräver datum +
+  // tidsfönster om hemleverans är valt; annars visas felet och vi stannar.
+  void _tryContinueFromDelivery() {
+    final needsSchedule = _deliveryId == 'home';
+    final scheduleOk =
+        !needsSchedule || (_selectedDate != null && _windowId != null);
+    if (!scheduleOk) {
+      setState(() => _showDeliveryError = true);
+      return;
+    }
+    _go(1);
   }
 }
 
@@ -665,6 +755,12 @@ class _DeliveryStep extends StatelessWidget {
   final ValueChanged<String> onDelivery;
   final int addressIndex;
   final ValueChanged<int> onAddress;
+  // Datum/tid för hemleverans + callbacks och felflagga.
+  final DateTime? selectedDate;
+  final String? windowId;
+  final bool showDeliveryError;
+  final ValueChanged<DateTime> onDate;
+  final ValueChanged<String> onWindow;
   final VoidCallback onContinue;
 
   const _DeliveryStep({
@@ -672,6 +768,11 @@ class _DeliveryStep extends StatelessWidget {
     required this.onDelivery,
     required this.addressIndex,
     required this.onAddress,
+    required this.selectedDate,
+    required this.windowId,
+    required this.showDeliveryError,
+    required this.onDate,
+    required this.onWindow,
     required this.onContinue,
   });
 
@@ -708,6 +809,21 @@ class _DeliveryStep extends StatelessWidget {
                     onTap: () => onDelivery(_deliveryOptions[i].id),
                     child: _DeliveryRow(opt: _deliveryOptions[i]),
                   ),
+                  // Under hemleverans visar vi datum + tidsfönster när
+                  // det alternativet är valt.
+                  if (_deliveryOptions[i].id == 'home' && deliveryId == 'home')
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: AppTheme.paddingMediumSmall,
+                      ),
+                      child: _HomeDeliveryScheduler(
+                        selectedDate: selectedDate,
+                        windowId: windowId,
+                        showError: showDeliveryError,
+                        onDate: onDate,
+                        onWindow: onWindow,
+                      ),
+                    ),
                   if (i < _deliveryOptions.length - 1)
                     const SizedBox(height: AppTheme.paddingMediumSmall),
                 ],
@@ -780,6 +896,217 @@ class _DeliveryStep extends StatelessWidget {
             label: 'Fortsätt till betalning',
             onPressed: canContinue ? onContinue : null,
           ),
+        ],
+      ),
+    );
+  }
+}
+
+// Datum- och tidsfönster-väljare som visas under hemleverans.
+// Visar ett rött felmeddelande när showError är true och något saknas.
+class _HomeDeliveryScheduler extends StatelessWidget {
+  final DateTime? selectedDate;
+  final String? windowId;
+  final bool showError;
+  final ValueChanged<DateTime> onDate;
+  final ValueChanged<String> onWindow;
+
+  const _HomeDeliveryScheduler({
+    required this.selectedDate,
+    required this.windowId,
+    required this.showError,
+    required this.onDate,
+    required this.onWindow,
+  });
+
+  Future<void> _pickDate(BuildContext context) async {
+    // Tidigast imorgon (idag + 1 dag), upp till 60 dagar framåt.
+    final tomorrow = DateTime.now().add(const Duration(days: 1));
+    final first = DateTime(tomorrow.year, tomorrow.month, tomorrow.day);
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? first,
+      firstDate: first,
+      lastDate: first.add(const Duration(days: 60)),
+      helpText: 'Välj leveransdatum',
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            dialogTheme: const DialogThemeData(
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.transparent,
+            ),
+            datePickerTheme: const DatePickerThemeData(
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.transparent,
+              dayStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              weekdayStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.textSecondary,
+              ),
+              yearStyle: TextStyle(fontSize: 18),
+            ),
+          ),
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: const TextScaler.linear(1.15),
+            ),
+            child: child!,
+          ),
+        );
+      },
+    );
+    if (picked != null) onDate(picked);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Visa fel bara om användaren försökt fortsätta OCH något saknas.
+    final dateMissing = showError && selectedDate == null;
+    final windowMissing = showError && windowId == null;
+    final dateText = _formatDate(selectedDate) ?? 'Välj datum';
+
+    return Container(
+      padding: const EdgeInsets.all(AppTheme.paddingMedium),
+      decoration: BoxDecoration(
+        color: AppTheme.surface,
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+        border: Border.all(color: AppTheme.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // ----- Datum -----
+          const Text(
+            'Leveransdatum',
+            style: TextStyle(
+              fontSize: AppTheme.fontSizeSm,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: AppTheme.paddingSmall),
+          Material(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+              onTap: () => _pickDate(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.paddingMedium,
+                  vertical: 14,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: dateMissing ? AppTheme.favorite : AppTheme.border,
+                  ),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      size: 18,
+                      color: selectedDate != null
+                          ? AppTheme.primary
+                          : AppTheme.textSecondary,
+                    ),
+                    const SizedBox(width: AppTheme.paddingSmall),
+                    Text(
+                      dateText,
+                      style: TextStyle(
+                        fontSize: AppTheme.fontSizeBase,
+                        fontWeight: selectedDate != null
+                            ? FontWeight.w600
+                            : FontWeight.w500,
+                        color: selectedDate != null
+                            ? AppTheme.black
+                            : AppTheme.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          if (dateMissing)
+            const Padding(
+              padding: EdgeInsets.only(top: 6),
+              child: Text(
+                'Välj ett leveransdatum',
+                style: TextStyle(
+                  fontSize: AppTheme.fontSizeXs2,
+                  color: AppTheme.favorite,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          const SizedBox(height: AppTheme.paddingMedium),
+          // ----- Tidsfönster (dropdown) -----
+          const Text(
+            'Leveranstid',
+            style: TextStyle(
+              fontSize: AppTheme.fontSizeSm,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: AppTheme.paddingSmall),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppTheme.paddingMedium,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: windowMissing ? AppTheme.favorite : AppTheme.border,
+              ),
+              borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: windowId,
+                isExpanded: true,
+                hint: const Text(
+                  'Välj leveranstid',
+                  style: TextStyle(
+                    fontSize: AppTheme.fontSizeBase,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+                icon: const Icon(Icons.keyboard_arrow_down),
+                items: [
+                  for (final w in _deliveryWindows)
+                    DropdownMenuItem<String>(
+                      value: w.id,
+                      child: Text(
+                        w.display,
+                        style: const TextStyle(
+                          fontSize: AppTheme.fontSizeBase,
+                          color: AppTheme.black,
+                        ),
+                      ),
+                    ),
+                ],
+                onChanged: (v) {
+                  if (v != null) onWindow(v);
+                },
+              ),
+            ),
+          ),
+          if (windowMissing)
+            const Padding(
+              padding: EdgeInsets.only(top: 6),
+              child: Text(
+                'Välj en leveranstid',
+                style: TextStyle(
+                  fontSize: AppTheme.fontSizeXs2,
+                  color: AppTheme.favorite,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -1183,6 +1510,8 @@ class _ReviewStep extends StatelessWidget {
   final int addressIndex;
   final String paymentId;
   final int cardIndex;
+  final DateTime? selectedDate;
+  final String? windowId;
   final VoidCallback onConfirm;
 
   const _ReviewStep({
@@ -1190,6 +1519,8 @@ class _ReviewStep extends StatelessWidget {
     required this.addressIndex,
     required this.paymentId,
     required this.cardIndex,
+    required this.selectedDate,
+    required this.windowId,
     required this.onConfirm,
   });
 
@@ -1272,6 +1603,20 @@ class _ReviewStep extends StatelessWidget {
                         color: AppTheme.black,
                       ),
                     ),
+                    // Visa valt datum/tidsfönster vid hemleverans.
+                    if (deliveryId == 'home' &&
+                        selectedDate != null &&
+                        windowId != null) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        '${_formatDate(selectedDate)} · ${_windowById(windowId)?.display ?? ''}',
+                        style: const TextStyle(
+                          fontSize: AppTheme.fontSizeBase,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.primary,
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 4),
                     for (final l in addressLines)
                       Text(
@@ -1401,7 +1746,16 @@ class _ReviewSection extends StatelessWidget {
 class _DoneStep extends StatelessWidget {
   final Order? order;
   final double deliveryCost;
-  const _DoneStep({required this.order, required this.deliveryCost});
+  final String deliveryId;
+  final DateTime? selectedDate;
+  final String? windowId;
+  const _DoneStep({
+    required this.order,
+    required this.deliveryCost,
+    required this.deliveryId,
+    required this.selectedDate,
+    required this.windowId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1481,6 +1835,31 @@ class _DoneStep extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 8),
+                      // Visa vald leveranstid vid hemleverans.
+                      if (deliveryId == 'home' &&
+                          selectedDate != null &&
+                          windowId != null) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Leverans:',
+                              style: TextStyle(fontSize: AppTheme.fontSizeBase),
+                            ),
+                            Flexible(
+                              child: Text(
+                                '${_formatDate(selectedDate)} · ${_windowById(windowId)?.display ?? ''}',
+                                textAlign: TextAlign.right,
+                                style: const TextStyle(
+                                  fontSize: AppTheme.fontSizeBase,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                      ],
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
