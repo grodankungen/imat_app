@@ -159,12 +159,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   Future<void> _placeOrder() async {
     final iMat = context.read<ImatDataHandler>();
-    final delivery =
-        _deliveryOptions.firstWhere((d) => d.id == _deliveryId);
+    final delivery = _deliveryOptions.firstWhere((d) => d.id == _deliveryId);
 
     // Capture pre-place orderNumbers so we can identify the new one.
-    final beforeIds =
-        iMat.orders.map((o) => o.orderNumber).toSet();
+    final beforeIds = iMat.orders.map((o) => o.orderNumber).toSet();
 
     iMat.placeOrder();
     // Give the async placeOrder a moment to populate orders list
@@ -238,29 +236,32 @@ class _CheckoutPageState extends State<CheckoutPage> {
       case 0:
         return _DeliveryStep(
           deliveryId: _deliveryId,
-          onDelivery: (id) => setState(() {
-            _deliveryId = id;
-            // Byter man bort från hemleverans försvinner felet.
-            if (id != 'home') _showDeliveryError = false;
-          }),
+          onDelivery:
+              (id) => setState(() {
+                _deliveryId = id;
+                // Byter man bort från hemleverans försvinner felet.
+                if (id != 'home') _showDeliveryError = false;
+              }),
           addressIndex: _addressIndex,
           onAddress: (i) => setState(() => _addressIndex = i),
           selectedDate: _selectedDate,
           windowId: _windowId,
           showDeliveryError: _showDeliveryError,
-          onDate: (d) => setState(() {
-            _selectedDate = d;
-            // När båda fälten är ifyllda tar vi bort ev. felmeddelande.
-            if (_selectedDate != null && _windowId != null) {
-              _showDeliveryError = false;
-            }
-          }),
-          onWindow: (id) => setState(() {
-            _windowId = id;
-            if (_selectedDate != null && _windowId != null) {
-              _showDeliveryError = false;
-            }
-          }),
+          onDate:
+              (d) => setState(() {
+                _selectedDate = d;
+                // När båda fälten är ifyllda tar vi bort ev. felmeddelande.
+                if (_selectedDate != null && _windowId != null) {
+                  _showDeliveryError = false;
+                }
+              }),
+          onWindow:
+              (id) => setState(() {
+                _windowId = id;
+                if (_selectedDate != null && _windowId != null) {
+                  _showDeliveryError = false;
+                }
+              }),
           onContinue: _tryContinueFromDelivery,
         );
       case 1:
@@ -415,10 +416,11 @@ class _StepperRow extends StatelessWidget {
                   style: TextStyle(
                     fontSize: AppTheme.fontSizeXs2,
                     fontWeight: FontWeight.w500,
-                    color: (i == active && !completedAll) ||
-                            (i < active || completedAll)
-                        ? AppTheme.black
-                        : AppTheme.hint,
+                    color:
+                        (i == active && !completedAll) ||
+                                (i < active || completedAll)
+                            ? AppTheme.black
+                            : AppTheme.hint,
                   ),
                 ),
               ],
@@ -430,9 +432,10 @@ class _StepperRow extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 24),
                 child: Container(
                   height: 2,
-                  color: (i < active || completedAll)
-                      ? AppTheme.primary
-                      : AppTheme.border,
+                  color:
+                      (i < active || completedAll)
+                          ? AppTheme.primary
+                          : AppTheme.border,
                 ),
               ),
             ),
@@ -513,7 +516,10 @@ class _OrderSummary extends StatelessWidget {
             padding: EdgeInsets.only(bottom: AppTheme.paddingMedium),
             child: Text(
               'Ordersammanställning',
-              style: TextStyle(fontSize: AppTheme.fontSizeXl, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: AppTheme.fontSizeXl,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           for (final item in items)
@@ -524,8 +530,7 @@ class _OrderSummary extends StatelessWidget {
               child: Row(
                 children: [
                   ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(AppTheme.radiusSm),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                     child: SizedBox(
                       width: 40,
                       height: 40,
@@ -642,8 +647,7 @@ class _Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          padding ?? const EdgeInsets.all(AppTheme.paddingLarge),
+      padding: padding ?? const EdgeInsets.all(AppTheme.paddingLarge),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(AppTheme.radiusXl),
@@ -704,10 +708,7 @@ class _OptionTile extends StatelessWidget {
 class _StepLayout extends StatelessWidget {
   final Widget left;
   final String deliveryId;
-  const _StepLayout({
-    required this.left,
-    required this.deliveryId,
-  });
+  const _StepLayout({required this.left, required this.deliveryId});
 
   @override
   Widget build(BuildContext context) {
@@ -863,29 +864,15 @@ class _DeliveryStep extends StatelessWidget {
                       ),
                     ),
                     if (i < addresses.length - 1)
-                      const SizedBox(
-                        height: AppTheme.paddingMediumSmall,
-                      ),
+                      const SizedBox(height: AppTheme.paddingMediumSmall),
                   ],
                 const SizedBox(height: AppTheme.paddingMediumSmall),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: TextButton(
+                  child: _PrimaryButton(
+                    label: 'Hantera adresser',
                     onPressed: () => showAccountModal(context),
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppTheme.primary,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 4,
-                      ),
-                    ),
-                    child: const Text(
-                      'Hantera adresser',
-                      style: TextStyle(
-                        fontSize: AppTheme.fontSizeSm,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    fullWidth: false,
                   ),
                 ),
               ],
@@ -950,9 +937,9 @@ class _HomeDeliveryScheduler extends StatelessWidget {
             ),
           ),
           child: MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              textScaler: const TextScaler.linear(1.15),
-            ),
+            data: MediaQuery.of(
+              context,
+            ).copyWith(textScaler: const TextScaler.linear(1.15)),
             child: child!,
           ),
         );
@@ -1009,21 +996,24 @@ class _HomeDeliveryScheduler extends StatelessWidget {
                     Icon(
                       Icons.calendar_today_outlined,
                       size: 18,
-                      color: selectedDate != null
-                          ? AppTheme.primary
-                          : AppTheme.textSecondary,
+                      color:
+                          selectedDate != null
+                              ? AppTheme.primary
+                              : AppTheme.textSecondary,
                     ),
                     const SizedBox(width: AppTheme.paddingSmall),
                     Text(
                       dateText,
                       style: TextStyle(
                         fontSize: AppTheme.fontSizeBase,
-                        fontWeight: selectedDate != null
-                            ? FontWeight.w600
-                            : FontWeight.w500,
-                        color: selectedDate != null
-                            ? AppTheme.black
-                            : AppTheme.textSecondary,
+                        fontWeight:
+                            selectedDate != null
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                        color:
+                            selectedDate != null
+                                ? AppTheme.black
+                                : AppTheme.textSecondary,
                       ),
                     ),
                   ],
@@ -1137,7 +1127,9 @@ class _DeliveryRow extends StatelessWidget {
               Text(
                 opt.title,
                 style: const TextStyle(
-                  fontSize: 20, // Titel, t.ex. "Hemleverans" (var fontSizeBase)
+                  fontSize:
+                      AppTheme
+                          .fontSize2xl, // Titel, t.ex. "Hemleverans" (var fontSizeBase)
                   fontWeight: FontWeight.w600,
                   color: AppTheme.black,
                 ),
@@ -1183,7 +1175,7 @@ class _AddressRow extends StatelessWidget {
               Text(
                 address.label,
                 style: const TextStyle(
-                  fontSize: AppTheme.fontSizeBase,
+                  fontSize: AppTheme.fontSizeXl,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -1196,11 +1188,17 @@ class _AddressRow extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             address.street,
-            style: const TextStyle(fontSize: AppTheme.fontSizeXs2, color: AppTheme.textPrimary),
+            style: const TextStyle(
+              fontSize: AppTheme.fontSizeLg,
+              color: AppTheme.textPrimary,
+            ),
           ),
           Text(
             '${address.postCode} ${address.city}'.trim(),
-            style: const TextStyle(fontSize: AppTheme.fontSizeXs2, color: AppTheme.textPrimary),
+            style: const TextStyle(
+              fontSize: AppTheme.fontSizeLg,
+              color: AppTheme.textPrimary,
+            ),
           ),
         ],
       ),
@@ -1254,7 +1252,7 @@ class _EmptyAccountHint extends StatelessWidget {
           Text(
             text,
             style: const TextStyle(
-              fontSize: AppTheme.fontSizeXs2,
+              fontSize: AppTheme.fontSizeBase,
               color: AppTheme.textSecondary,
             ),
           ),
@@ -1265,20 +1263,16 @@ class _EmptyAccountHint extends StatelessWidget {
               backgroundColor: AppTheme.primary,
               foregroundColor: Colors.white,
               elevation: 0,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 10,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(AppTheme.radiusLg),
+                borderRadius: BorderRadius.circular(AppTheme.radiusLg),
               ),
             ),
             icon: const Icon(Icons.add, size: 18),
             label: Text(
               actionLabel,
               style: const TextStyle(
-                fontSize: AppTheme.fontSizeXs2,
+                fontSize: AppTheme.fontSizeBase,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -1313,7 +1307,8 @@ class _PaymentStep extends StatelessWidget {
     final iMat = context.watch<ImatDataHandler>();
     final cards = AccountData.cards(iMat);
     final defCard = AccountData.defaultCardIndex(iMat);
-    final canContinue = paymentId != 'card' || (cards.isNotEmpty && cardIndex >= 0);
+    final canContinue =
+        paymentId != 'card' || (cards.isNotEmpty && cardIndex >= 0);
 
     return _StepLayout(
       deliveryId: deliveryId,
@@ -1352,7 +1347,7 @@ class _PaymentStep extends StatelessWidget {
                     child: Text(
                       'Sparade kort',
                       style: TextStyle(
-                        fontSize: AppTheme.fontSizeBase,
+                        fontSize: AppTheme.fontSizeLg,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -1374,29 +1369,15 @@ class _PaymentStep extends StatelessWidget {
                         ),
                       ),
                       if (i < cards.length - 1)
-                        const SizedBox(
-                          height: AppTheme.paddingMediumSmall,
-                        ),
+                        const SizedBox(height: AppTheme.paddingMediumSmall),
                     ],
                   const SizedBox(height: AppTheme.paddingMediumSmall),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: TextButton(
+                    child: _PrimaryButton(
+                      label: 'Hantera kort',
                       onPressed: () => showAccountModal(context),
-                      style: TextButton.styleFrom(
-                        foregroundColor: AppTheme.primary,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4,
-                          vertical: 4,
-                        ),
-                      ),
-                      child: const Text(
-                        'Hantera kort',
-                        style: TextStyle(
-                          fontSize: AppTheme.fontSizeSm,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      fullWidth: false,
                     ),
                   ),
                 ],
@@ -1537,19 +1518,19 @@ class _ReviewStep extends StatelessWidget {
     final paymentLabel =
         _paymentOptions.firstWhere((p) => p.id == paymentId).title;
 
-    final SavedAddress? addr = (addressIndex >= 0 &&
-            addressIndex < addresses.length)
-        ? addresses[addressIndex]
-        : null;
-    final SavedCard? card = (paymentId == 'card' &&
-            cardIndex >= 0 &&
-            cardIndex < cards.length)
-        ? cards[cardIndex]
-        : null;
+    final SavedAddress? addr =
+        (addressIndex >= 0 && addressIndex < addresses.length)
+            ? addresses[addressIndex]
+            : null;
+    final SavedCard? card =
+        (paymentId == 'card' && cardIndex >= 0 && cardIndex < cards.length)
+            ? cards[cardIndex]
+            : null;
 
-    final addressLines = addr == null
-        ? ['(ingen adress vald)']
-        : [addr.street, '${addr.postCode} ${addr.city}'.trim()];
+    final addressLines =
+        addr == null
+            ? ['(ingen adress vald)']
+            : [addr.street, '${addr.postCode} ${addr.city}'.trim()];
 
     final deliveryTitle =
         _deliveryOptions.firstWhere((d) => d.id == deliveryId).title;
@@ -1664,12 +1645,16 @@ class _ReviewStep extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 '${item.amount.toStringAsFixed(0)}x ${item.product.name}',
-                                style: const TextStyle(fontSize: AppTheme.fontSizeBase),
+                                style: const TextStyle(
+                                  fontSize: AppTheme.fontSizeBase,
+                                ),
                               ),
                             ),
                             Text(
                               '${(item.product.price * item.amount).toStringAsFixed(2)} kr',
-                              style: const TextStyle(fontSize: AppTheme.fontSizeBase),
+                              style: const TextStyle(
+                                fontSize: AppTheme.fontSizeBase,
+                              ),
                             ),
                           ],
                         ),
@@ -1760,13 +1745,13 @@ class _DoneStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iMat = context.watch<ImatDataHandler>();
-    final email = iMat.getCustomer().email.isEmpty
-        ? 'din e-post'
-        : iMat.getCustomer().email;
+    final email =
+        iMat.getCustomer().email.isEmpty
+            ? 'din e-post'
+            : iMat.getCustomer().email;
     final orderNumber = order?.orderNumber.toString() ?? '—';
-    final total = order != null
-        ? order!.getTotal() + deliveryCost
-        : deliveryCost;
+    final total =
+        order != null ? order!.getTotal() + deliveryCost : deliveryCost;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppTheme.paddingLarge),
@@ -1813,8 +1798,7 @@ class _DoneStep extends StatelessWidget {
                   padding: const EdgeInsets.all(AppTheme.paddingMedium),
                   decoration: BoxDecoration(
                     color: AppTheme.surface,
-                    borderRadius:
-                        BorderRadius.circular(AppTheme.radiusLg),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                   ),
                   child: Column(
                     children: [
