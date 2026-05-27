@@ -20,8 +20,7 @@ class _OrderHistoryModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iMat = context.watch<ImatDataHandler>();
-    final orders = [...iMat.orders]
-      ..sort((a, b) => b.date.compareTo(a.date));
+    final orders = [...iMat.orders]..sort((a, b) => b.date.compareTo(a.date));
 
     return Dialog(
       backgroundColor: Colors.white,
@@ -61,27 +60,27 @@ class _OrderHistoryModal extends StatelessWidget {
             const Divider(height: 1, color: AppTheme.border),
             // Body
             Flexible(
-              child: orders.isEmpty
-                  ? const Padding(
-                      padding: EdgeInsets.all(AppTheme.paddingHuge),
-                      child: Text(
-                        'Du har inga tidigare beställningar.',
-                        style: TextStyle(
-                          fontSize: AppTheme.fontSizeBase,
-                          color: AppTheme.textSecondary,
+              child:
+                  orders.isEmpty
+                      ? const Padding(
+                        padding: EdgeInsets.all(AppTheme.paddingHuge),
+                        child: Text(
+                          'Du har inga tidigare beställningar.',
+                          style: TextStyle(
+                            fontSize: AppTheme.fontSizeBase,
+                            color: AppTheme.textSecondary,
+                          ),
                         ),
+                      )
+                      : ListView.separated(
+                        padding: const EdgeInsets.all(AppTheme.paddingLarge),
+                        itemCount: orders.length,
+                        separatorBuilder:
+                            (_, __) =>
+                                const SizedBox(height: AppTheme.paddingMedium),
+                        itemBuilder:
+                            (_, i) => _OrderCard(order: orders[i], iMat: iMat),
                       ),
-                    )
-                  : ListView.separated(
-                      padding: const EdgeInsets.all(
-                        AppTheme.paddingLarge,
-                      ),
-                      itemCount: orders.length,
-                      separatorBuilder: (_, __) =>
-                          const SizedBox(height: AppTheme.paddingMedium),
-                      itemBuilder: (_, i) =>
-                          _OrderCard(order: orders[i], iMat: iMat),
-                    ),
             ),
           ],
         ),
@@ -121,8 +120,7 @@ class _OrderCard extends StatelessWidget {
     final meta = AccountData.orderMeta(iMat, order.orderNumber);
     final deliveryLabel =
         deliveryLabels[meta?.delivery ?? 'home'] ?? 'Hemleverans';
-    final paymentLabel =
-        paymentLabels[meta?.payment ?? 'card'] ?? 'Bankkort';
+    final paymentLabel = paymentLabels[meta?.payment ?? 'card'] ?? 'Bankkort';
 
     return Container(
       decoration: BoxDecoration(
@@ -159,14 +157,14 @@ class _OrderCard extends StatelessWidget {
                       Text(
                         _fmt(order.date),
                         style: const TextStyle(
-                          fontSize: AppTheme.fontSizeXs2,
+                          fontSize: AppTheme.fontSizeBase,
                           color: AppTheme.textSecondary,
                         ),
                       ),
                       Text(
                         '$deliveryLabel  •  $paymentLabel',
                         style: const TextStyle(
-                          fontSize: AppTheme.fontSizeXs2,
+                          fontSize: AppTheme.fontSizeBase,
                           color: AppTheme.textSecondary,
                         ),
                       ),
@@ -179,7 +177,7 @@ class _OrderCard extends StatelessWidget {
                     Text(
                       '${order.getTotal().toStringAsFixed(2)} kr',
                       style: const TextStyle(
-                        fontSize: AppTheme.fontSize3xl,
+                        fontSize: AppTheme.fontSize4xl,
                         fontWeight: FontWeight.w700,
                         color: AppTheme.primary,
                       ),
@@ -195,35 +193,29 @@ class _OrderCard extends StatelessWidget {
                           vertical: 10,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radiusLg),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusLg,
+                          ),
                         ),
                       ),
-                      icon: const Icon(
-                        Icons.shopping_cart_outlined,
-                        size: 18,
-                      ),
+                      icon: const Icon(Icons.shopping_cart_outlined, size: 18),
                       label: const Text(
                         'Beställ igen',
                         style: TextStyle(
-                          fontSize: AppTheme.fontSizeXs2,
+                          fontSize: AppTheme.fontSizeXl,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       onPressed: () {
                         for (final item in order.items) {
                           iMat.shoppingCartAdd(
-                            ShoppingItem(
-                              item.product,
-                              amount: item.amount,
-                            ),
+                            ShoppingItem(item.product, amount: item.amount),
                           );
                         }
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text('Produkterna lades i kundvagnen'),
+                            content: Text('Produkterna lades i kundvagnen'),
                           ),
                         );
                       },
@@ -235,8 +227,7 @@ class _OrderCard extends StatelessWidget {
           ),
           // Items
           for (int i = 0; i < order.items.length; i++) ...[
-            if (i == 0)
-              const Divider(height: 1, color: AppTheme.border),
+            if (i == 0) const Divider(height: 1, color: AppTheme.border),
             _OrderItemRow(item: order.items[i], iMat: iMat),
             if (i < order.items.length - 1)
               const Divider(height: 1, color: AppTheme.border),
@@ -279,7 +270,7 @@ class _OrderItemRow extends StatelessWidget {
                 Text(
                   item.product.name,
                   style: const TextStyle(
-                    fontSize: AppTheme.fontSizeBase,
+                    fontSize: AppTheme.fontSizeLg,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -287,7 +278,7 @@ class _OrderItemRow extends StatelessWidget {
                 Text(
                   '${item.amount.toStringAsFixed(0)} × ${item.product.price.toStringAsFixed(2)} kr',
                   style: const TextStyle(
-                    fontSize: AppTheme.fontSizeXs,
+                    fontSize: AppTheme.fontSizeBase,
                     color: AppTheme.textSecondary,
                   ),
                 ),

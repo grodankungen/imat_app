@@ -7,7 +7,11 @@ import 'package:imat_app/model/account_data.dart';
 class AccountSectionHeader extends StatelessWidget {
   final IconData icon;
   final String title;
-  const AccountSectionHeader({super.key, required this.icon, required this.title});
+  const AccountSectionHeader({
+    super.key,
+    required this.icon,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +77,7 @@ class AccountEmptyHint extends StatelessWidget {
         text,
         style: const TextStyle(
           color: AppTheme.textSecondary,
-          fontSize: AppTheme.fontSizeXs2,
+          fontSize: AppTheme.fontSizeBase,
         ),
       ),
     );
@@ -177,14 +181,14 @@ class AccountAddressTile extends StatelessWidget {
                     Text(
                       address.street,
                       style: const TextStyle(
-                        fontSize: AppTheme.fontSizeXs2,
+                        fontSize: AppTheme.fontSizeBase,
                         color: AppTheme.textPrimary,
                       ),
                     ),
                     Text(
                       '${address.postCode} ${address.city}'.trim(),
                       style: const TextStyle(
-                        fontSize: AppTheme.fontSizeXs2,
+                        fontSize: AppTheme.fontSizeBase,
                         color: AppTheme.textPrimary,
                       ),
                     ),
@@ -194,7 +198,7 @@ class AccountAddressTile extends StatelessWidget {
                         child: Text(
                           address.phone,
                           style: const TextStyle(
-                            fontSize: AppTheme.fontSizeXs2,
+                            fontSize: AppTheme.fontSizeBase,
                             color: AppTheme.textSecondary,
                           ),
                         ),
@@ -206,32 +210,29 @@ class AccountAddressTile extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextButton.icon(
+                  ElevatedButton.icon(
                     onPressed: onEdit,
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppTheme.primary,
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
                     label: const Text(
                       'Ändra',
-                      style: TextStyle(fontSize: AppTheme.fontSizeBase, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        fontSize: AppTheme.fontSizeBase,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     icon: const Icon(Icons.edit_outlined, size: 16),
                   ),
                   const SizedBox(width: 4),
-                  TextButton.icon(
+                  ElevatedButton.icon(
                     onPressed: onDelete,
                     style: TextButton.styleFrom(
                       foregroundColor: AppTheme.favorite,
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     label: const Text(
                       'Ta bort',
-                      style: TextStyle(fontSize: AppTheme.fontSizeBase, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        fontSize: AppTheme.fontSizeBase,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     icon: const Icon(Icons.delete_outline, size: 16),
                   ),
@@ -328,32 +329,32 @@ class AccountCardTile extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextButton.icon(
+                  ElevatedButton.icon(
                     onPressed: onEdit,
                     style: TextButton.styleFrom(
                       foregroundColor: AppTheme.primary,
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     label: const Text(
                       'Ändra',
-                      style: TextStyle(fontSize: AppTheme.fontSizeBase, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        fontSize: AppTheme.fontSizeBase,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     icon: const Icon(Icons.edit_outlined, size: 16),
                   ),
                   const SizedBox(width: 4),
-                  TextButton.icon(
+                  ElevatedButton.icon(
                     onPressed: onDelete,
                     style: TextButton.styleFrom(
                       foregroundColor: AppTheme.favorite,
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     label: const Text(
                       'Ta bort',
-                      style: TextStyle(fontSize: AppTheme.fontSizeBase, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        fontSize: AppTheme.fontSizeBase,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     icon: const Icon(Icons.delete_outline, size: 16),
                   ),

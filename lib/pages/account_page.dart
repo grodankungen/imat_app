@@ -200,7 +200,7 @@ class _StandardBadge extends StatelessWidget {
           Text(
             'Standard',
             style: TextStyle(
-              fontSize: AppTheme.fontSizeXxs,
+              fontSize: AppTheme.fontSize2xl,
               fontWeight: FontWeight.w600,
               color: AppTheme.primary,
             ),
