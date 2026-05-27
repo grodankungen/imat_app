@@ -547,14 +547,14 @@ class _OrderSummary extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: AppTheme.fontSizeSm,
+                            fontSize: AppTheme.fontSizeXl,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         Text(
                           '${item.amount.toStringAsFixed(0)} × ${item.product.price.toStringAsFixed(1)} kr',
                           style: const TextStyle(
-                            fontSize: AppTheme.fontSizeXs,
+                            fontSize: AppTheme.fontSizeBase,
                             color: AppTheme.textSecondary,
                           ),
                         ),
