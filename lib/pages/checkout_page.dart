@@ -1966,16 +1966,12 @@ class _SecondaryButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        // Grön bakgrund med låg opacitet + grön text/ikon.
         backgroundColor: AppTheme.primary.withValues(alpha: 0.12),
         foregroundColor: AppTheme.primary,
-        // Mindre inre marginaler => mindre knapp än Fortsätt-knappen.
         padding: const EdgeInsets.symmetric(
           horizontal: AppTheme.paddingMedium,
-          vertical: AppTheme.paddingMediumSmall,
+          vertical: 18,
         ),
-        minimumSize: Size.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         ),
