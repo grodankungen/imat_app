@@ -869,10 +869,9 @@ class _DeliveryStep extends StatelessWidget {
                 const SizedBox(height: AppTheme.paddingMediumSmall),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: _PrimaryButton(
+                  child: _SecondaryButton(
                     label: 'Hantera adresser',
                     onPressed: () => showAccountModal(context),
-                    fullWidth: false,
                   ),
                 ),
               ],
@@ -1338,16 +1337,23 @@ class _PaymentStep extends StatelessWidget {
                   if (i < _paymentOptions.length - 1)
                     const SizedBox(height: AppTheme.paddingMediumSmall),
                 ],
-                if (paymentId == 'card') ...[
-                  const SizedBox(height: AppTheme.paddingLarge),
+              ],
+            ),
+          ),
+          // "Sparade kort" ligger nu i ett eget kort med mellanrum ovanför,
+          // på samma sätt som "Leveransadress" är skilt från "Leveranssätt".
+          if (paymentId == 'card') ...[
+            const SizedBox(height: AppTheme.paddingLarge),
+            _Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
                   const Padding(
-                    padding: EdgeInsets.only(
-                      bottom: AppTheme.paddingMediumSmall,
-                    ),
+                    padding: EdgeInsets.only(bottom: AppTheme.paddingMedium),
                     child: Text(
                       'Sparade kort',
                       style: TextStyle(
-                        fontSize: AppTheme.fontSizeLg,
+                        fontSize: AppTheme.fontSizeXl,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -1374,16 +1380,15 @@ class _PaymentStep extends StatelessWidget {
                   const SizedBox(height: AppTheme.paddingMediumSmall),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: _PrimaryButton(
+                    child: _SecondaryButton(
                       label: 'Hantera kort',
                       onPressed: () => showAccountModal(context),
-                      fullWidth: false,
                     ),
                   ),
                 ],
-              ],
+              ),
             ),
-          ),
+          ],
           const SizedBox(height: AppTheme.paddingLarge),
           _PrimaryButton(
             label: 'Granska beställning',
@@ -1890,11 +1895,15 @@ class _PrimaryButton extends StatelessWidget {
   final IconData? icon;
   final VoidCallback? onPressed;
   final bool fullWidth;
+  // Storlek på knapptexten. Standard matchar övriga primärknappar (fontSizeMd),
+  // men kan höjas för enstaka knappar.
+  final double labelSize;
   const _PrimaryButton({
     required this.label,
     required this.onPressed,
     this.icon,
     this.fullWidth = true,
+    this.labelSize = AppTheme.fontSizeMd,
   });
 
   @override
@@ -1925,8 +1934,8 @@ class _PrimaryButton extends StatelessWidget {
           ],
           Text(
             label,
-            style: const TextStyle(
-              fontSize: AppTheme.fontSizeMd,
+            style: TextStyle(
+              fontSize: labelSize,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -1934,5 +1943,59 @@ class _PrimaryButton extends StatelessWidget {
       ),
     );
     return fullWidth ? SizedBox(width: double.infinity, child: btn) : btn;
+  }
+}
+
+// ---------- Secondary (manage) button ----------
+
+// Mindre, mindre framträdande knapp för "Hantera"-åtgärder.
+// Använder en grön bakgrund med låg opacitet och grön text, så att den
+// tydligt skiljer sig från den prominenta _PrimaryButton (Fortsätt-knappen).
+class _SecondaryButton extends StatelessWidget {
+  final String label;
+  final IconData? icon;
+  final VoidCallback? onPressed;
+  const _SecondaryButton({
+    required this.label,
+    required this.onPressed,
+    this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        // Grön bakgrund med låg opacitet + grön text/ikon.
+        backgroundColor: AppTheme.primary.withValues(alpha: 0.12),
+        foregroundColor: AppTheme.primary,
+        // Mindre inre marginaler => mindre knapp än Fortsätt-knappen.
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppTheme.paddingMedium,
+          vertical: AppTheme.paddingMediumSmall,
+        ),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            Icon(icon, size: 18),
+            const SizedBox(width: AppTheme.paddingSmall),
+          ],
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: AppTheme.fontSizeSm,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
